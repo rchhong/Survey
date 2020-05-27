@@ -22,7 +22,7 @@ export default function EditSurvey() {
         return () => {isSubscribed = false;}
     }, [questions]);
 
-    const handleClick = () => {
+    const handleSubmit = () => {
         fetch("http://localhost:5000/api/questions/add", {
             method: 'POST',
             headers: {
@@ -46,7 +46,7 @@ export default function EditSurvey() {
                 })}
             </ol>
             <input type="text" value={title} onChange={e => setTitle(e.target.value)}></input>
-            <button onClick={handleClick.bind(this)}>Submit</button>
+            <button onClick={handleSubmit.bind(this)}>Submit</button>
         </div>
     );
 }

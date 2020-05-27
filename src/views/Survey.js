@@ -25,8 +25,22 @@ export default function Survey() {
         setResults({...results, [questions[index].title] : e.target.value});
     }
 
+
     const handleSubmit = () => {
-        console.log(results);
+        let payload = [];
+        Object.keys(results).forEach((key, index) => {
+            payload.push({question : key, result : results[key]});
+        });
+
+        fetch("http://localhost:5000/api/results/add", {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body : JSON.stringify({results : payload})
+        })
+        setResults({});
     }
 
     return (
@@ -45,7 +59,7 @@ export default function Survey() {
                     )
                 })
             }
-            <button onClick={handleSubmit}>Submit</button>
+            <button onClick={handleSubmit.bind(this)}>Submit</button>
         </div>
 
     );

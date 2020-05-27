@@ -1,10 +1,10 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var questionSchema = new Schema({
+const questionSchema = new Schema({
     title: String,
 });
 
-var Question = mongoose.model("Question", questionSchema);
+const Question = mongoose.model("Question", questionSchema);
 
 module.exports = Question;
