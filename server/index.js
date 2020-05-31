@@ -6,7 +6,12 @@ const mongoose = require('mongoose');
 
 require('dotenv').config()
 
-mongoose.connect('mongodb://localhost/survey', {useNewUrlParser: true , useUnifiedTopology: true});
+mongoose.connect('mongodb://localhost:27017/survey', {useNewUrlParser: true , useUnifiedTopology: true})
+    .then(() => {
+        console.log("MongoDB port connection active");
+    }).catch((err) => {
+        console.log(err);
+    });
 mongoose.set('useCreateIndex', true);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, "connection error: "));
@@ -23,7 +28,7 @@ app.use(express.static('public'));
 const cors = require('cors');
 app.use(cors());
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log(`listening on port ${ port }`);
 });
