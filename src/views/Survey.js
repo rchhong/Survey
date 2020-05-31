@@ -5,10 +5,13 @@ export default function Survey() {
     const [loading, setLoading] = useState(true);
     const [results, setResults] = useState({});
 
+
+
     useEffect(() => {
+        const SERVER_URL = process.env.REACT_APP_SERVER_URL;
         let isSubscribed = true;
         let getQuestions = async () => {
-            await fetch('http://localhost:5000/api/questions/')
+            await fetch(SERVER_URL + '/api/questions/')
             .then((res) => res.json())
             .then((data) => {
                 if(isSubscribed) {

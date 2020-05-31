@@ -8,8 +8,9 @@ export default function EditSurvey() {
 
     useEffect(() => {
         let isSubscribed = true;
+        const SERVER_URL = process.env.REACT_APP_SERVER_URL;
         let getQuestions = async () => {
-            await fetch('http://localhost:5000/api/questions/')
+            await fetch(SERVER_URL + '/api/questions/')
             .then((res) => res.json())
             .then((data) => {
                 if(isSubscribed) {
@@ -22,8 +23,11 @@ export default function EditSurvey() {
         return () => {isSubscribed = false;}
     }, [questions]);
 
+
+
     const handleSubmit = () => {
-        fetch("http://localhost:5000/api/questions/add", {
+        const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+        fetch(SERVER_URL + "/api/questions/add", {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
