@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import FirebaseContext from '../firebase/firebaseContext'
 
 export default function EditSurvey() {
 
@@ -6,35 +7,47 @@ export default function EditSurvey() {
     const [loading, setLoading] = useState(true);
     const [title, setTitle] = useState("");
 
+    const {getQuestions, pushQuestion} = useContext(FirebaseContext);
+
     useEffect(() => {
         let isSubscribed = true;
-        const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-        let getQuestions = async () => {
-            await fetch(SERVER_URL + '/api/questions/')
-            .then((res) => res.json())
-            .then((data) => {
+        // const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+        // let getQuestions = async () => {
+        //     await fetch(SERVER_URL + '/api/questions/')
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //         if(isSubscribed) {
+        //             setQuestions(data.questions);
+        //             setLoading(false);
+        //         }
+        //     });
+        // }
+        let getData = async () => {
+            await getQuestions().then((data) => {
                 if(isSubscribed) {
-                    setQuestions(data.questions);
+                    setQuestions(data);
                     setLoading(false);
                 }
             });
         }
-        getQuestions();
+        getData();
+
         return () => {isSubscribed = false;}
     }, [questions]);
 
 
 
     const handleSubmit = () => {
-        const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-        fetch(SERVER_URL + "/api/questions/add", {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body : JSON.stringify({title})
-        })
+        // const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+        // fetch(SERVER_URL + "/api/questions/add", {
+        //     method: 'POST',
+        //     headers: {
+        //         Accept: 'application/json',
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body : JSON.stringify({title})
+        // })
+        pushQuestion({title, inserted : new Date()});
         setTitle("");
     }
     

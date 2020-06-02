@@ -1,31 +1,43 @@
-import React, { useEffect, useState}from 'react';
+import React, { useEffect, useState, useContext} from 'react';
+import FirebaseContext from '../firebase/firebaseContext'
 
 export default function Survey() {
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [results, setResults] = useState({});
 
+    const {getQuestions, pushResults} = useContext(FirebaseContext);
 
 
     useEffect(() => {
-        const SERVER_URL = process.env.REACT_APP_SERVER_URL;
         let isSubscribed = true;
-        let getQuestions = async () => {
-            await fetch(SERVER_URL + '/api/questions/')
-            .then((res) => res.json())
-            .then((data) => {
+        // const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+        // let getQuestions = async () => {
+        //     await fetch(SERVER_URL + '/api/questions/')
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //         if(isSubscribed) {
+        //             setQuestions(data.questions);
+        //             setLoading(false);
+        //         }
+        //     });
+        // }
+        let getData = async () => {
+            await getQuestions().then((data) => {
                 if(isSubscribed) {
-                    setQuestions(data.questions);
+                    setQuestions(data);
                     setLoading(false);
                 }
             });
         }
-        getQuestions();
+        getData();
+
         return () => {isSubscribed = false;}
     }, [questions]);
 
     const handleChange = (e, index) => {
         setResults({...results, [questions[index].title] : e.target.value});
+        console.log(results);
     }
 
 
@@ -34,15 +46,16 @@ export default function Survey() {
         Object.keys(results).forEach((key, index) => {
             payload.push({question : key, result : results[key]});
         });
+        pushResults({result : payload, inserted : new Date()})
 
-        fetch("http://localhost:5000/api/results/add", {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body : JSON.stringify({results : payload})
-        })
+        // fetch("http://localhost:5000/api/results/add", {
+        //     method: 'POST',
+        //     headers: {
+        //         Accept: 'application/json',
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body : JSON.stringify({results : payload})
+        // })
         setResults({});
     }
 
@@ -57,7 +70,7 @@ export default function Survey() {
                     return (
                         <div key={index}>
                             <div>{ question.title }</div>
-                            <input type="text" value={results[index]} onChange={e => handleChange(e, index)}></input>
+                            <input type="text" value={results[question.title] || ''} onChange={e => handleChange(e, index)}></input>
                         </div>
                     )
                 })

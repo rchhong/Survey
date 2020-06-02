@@ -7,3 +7,5 @@ REACT_APP_SERVER_URL=<Insert Server URL Here>
 2. Run ```yarn``` 
 3. Run ```yarn start```
 4. Turn on the server (cd into ```server/``` and read the README)
+
+## Deploying to Firebase
