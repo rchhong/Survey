@@ -22,9 +22,9 @@ class Firebase {
         this.db = app.firestore();
     }
 
-    getQuestions = () => {
+    getQuestions = (id) => {
         return new Promise((res, rej) => {
-            this.db.collection('questions').orderBy("inserted").get().then((querySnapshot) => {
+            this.db.collection('questions-' + id).orderBy("inserted").get().then((querySnapshot) => {
                 let ret = [];
                 querySnapshot.forEach((doc) => {
                     ret.push({_id : doc.id, ...doc.data()});
@@ -34,12 +34,12 @@ class Firebase {
         });
     }
 
-    pushQuestion = (question) => {
-        this.db.collection('questions').add(question);
+    pushQuestion = (question, id) => {
+        this.db.collection('questions-' + id).add(question);
     }
 
-    pushResults = (result) => {
-        this.db.collection('results').add(result);
+    pushResults = (result, id) => {
+        this.db.collection('results-' + id).add(result);
     }
 }
 

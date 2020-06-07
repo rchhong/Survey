@@ -5,9 +5,17 @@ export default function Home() {
     return (
         <div>
             <h1>Home</h1>
-            <Link to="/survey">Survey</Link>
+            <Link to="/survey/visitors">Visitor Log</Link>
             <br></br>
-            <Link to="/edit">Edit Survey</Link>
+            <Link to="/edit/visitors">Edit Visitor Log</Link>
+            <br></br>
+            <Link to="/survey/team">Team Member Log</Link>
+            <br></br>
+            <Link to="/edit/team">Edit Team Member Log</Link>
+            <br></br>
+            <Link to="/survey/residents">Resident Log</Link>
+            <br></br>
+            <Link to="/edit/residents">Edit Resident Log</Link>        
         </div>
     );
 }

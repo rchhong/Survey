@@ -18,8 +18,8 @@ export default function App() {
           <div className='main-container'>
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route path="/survey" component={Survey} />
-              <Route path='/edit' component={EditSurvey} />
+              <Route path="/survey/:id" component={Survey} />
+              <Route path='/edit/:id' component={EditSurvey} />
             </Switch>
           </div>
       </Router>

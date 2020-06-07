@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import FirebaseContext from '../firebase/firebaseContext'
 
-export default function EditSurvey() {
-
+export default function EditSurvey(props) {
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [title, setTitle] = useState("");
 
     const {getQuestions, pushQuestion} = useContext(FirebaseContext);
+
+    const id = props.match.params.id;
 
     useEffect(() => {
         let isSubscribed = true;
@@ -23,7 +24,7 @@ export default function EditSurvey() {
         //     });
         // }
         let getData = async () => {
-            await getQuestions().then((data) => {
+            await getQuestions(id).then((data) => {
                 if(isSubscribed) {
                     setQuestions(data);
                     setLoading(false);
@@ -33,7 +34,7 @@ export default function EditSurvey() {
         getData();
 
         return () => {isSubscribed = false;}
-    }, [questions]);
+    }, [getQuestions, questions, id]);
 
 
 
@@ -47,7 +48,8 @@ export default function EditSurvey() {
         //     },
         //     body : JSON.stringify({title})
         // })
-        pushQuestion({title, inserted : new Date()});
+        console.log('id is ' + id);
+        pushQuestion({title, inserted : new Date()}, id);
         setTitle("");
     }
     

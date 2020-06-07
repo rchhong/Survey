@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useContext} from 'react';
 import FirebaseContext from '../firebase/firebaseContext'
 
-export default function Survey() {
+export default function Survey(props) {
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [results, setResults] = useState({});
 
     const {getQuestions, pushResults} = useContext(FirebaseContext);
 
+    const id = props.match.params.id;
 
     useEffect(() => {
         let isSubscribed = true;
@@ -23,7 +24,7 @@ export default function Survey() {
         //     });
         // }
         let getData = async () => {
-            await getQuestions().then((data) => {
+            await getQuestions(id).then((data) => {
                 if(isSubscribed) {
                     setQuestions(data);
                     setLoading(false);
@@ -33,7 +34,7 @@ export default function Survey() {
         getData();
 
         return () => {isSubscribed = false;}
-    }, [questions]);
+    }, [getQuestions, questions, id]);
 
     const handleChange = (e, index) => {
         setResults({...results, [questions[index].title] : e.target.value});
@@ -46,7 +47,7 @@ export default function Survey() {
         Object.keys(results).forEach((key, index) => {
             payload.push({question : key, result : results[key]});
         });
-        pushResults({result : payload, inserted : new Date()})
+        pushResults({result : payload, inserted : new Date()}, id)
 
         // fetch("http://localhost:5000/api/results/add", {
         //     method: 'POST',
