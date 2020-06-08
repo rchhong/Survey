@@ -37,7 +37,7 @@ export default function Survey(props) {
     }, [getQuestions, questions, id]);
 
     const handleChange = (e, index) => {
-        setResults({...results, [questions[index].title] : e.target.value});
+        setResults({...results, [questions[index].title] : e.target.value, inserted : new Date()});
         console.log(results);
     }
 

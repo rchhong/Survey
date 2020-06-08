@@ -6,7 +6,7 @@ export default function EditSurvey(props) {
     const [loading, setLoading] = useState(true);
     const [title, setTitle] = useState("");
 
-    const {getQuestions, pushQuestion} = useContext(FirebaseContext);
+    const {getQuestions, pushQuestion, deleteQuestion} = useContext(FirebaseContext);
 
     const id = props.match.params.id;
 
@@ -52,7 +52,13 @@ export default function EditSurvey(props) {
         pushQuestion({title, inserted : new Date()}, id);
         setTitle("");
     }
-    
+
+    const handleDelete = q => {
+        //TODO: hotfixed
+        deleteQuestion({title : q, inserted : new Date()}, id);
+        setTitle("");
+    }
+
     return (
         <div>
             <h1>Edit Survey</h1>
@@ -61,7 +67,14 @@ export default function EditSurvey(props) {
             }
             <ol>
                 {loading ? null : questions.map((question, index) => {
-                    return <li key={index}>{question.title}</li>;
+                    return (
+                                <li key={index}>
+                                    {question.title} 
+                                    <button value={question.title} onClick={e => {handleDelete(e.target.value);}}>
+                                        Delete
+                                    </button>
+                                </li>
+                            );
                 })}
             </ol>
             <input type="text" value={title} onChange={e => setTitle(e.target.value)}></input>
