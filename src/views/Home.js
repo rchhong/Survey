@@ -16,6 +16,8 @@ export default function Home() {
             <Link to="/survey/residents">Resident Log</Link>
             <br></br>
             <Link to="/edit/residents">Edit Resident Log</Link>        
+            <br></br>
+            <Link to="/analytics">Analytics</Link>
         </div>
     );
 }
