@@ -36,12 +36,14 @@ class Firebase {
 
     getAlerts = () => {
         return new Promise((res, rej) => {
-            this.db.collection('questions-residents').where('temperature', '>', 99.0).orderBy('inserted').get().then((querySnapshot) => {
+            this.db.collection('results-residents').orderBy('inserted').get().then((querySnapshot) => {
                 let ret = [];
                 querySnapshot.forEach((doc) =>{
+                    console.log("object is ", {_id : doc.id, ...doc.data()});
                     ret.push({_id : doc.id, ...doc.data()});
                 })
-            })
+                return ret;
+            }).then((ret) => res(ret));
         });
     }
 
@@ -55,7 +57,6 @@ class Firebase {
     }
 
     deleteQuestion = (question, id) => {
-        console.log(question);
         this.db.collection('questions-' + id).doc(question.title).delete().then(() => {
             console.log("Document deleted.");
         }).catch((err) => {

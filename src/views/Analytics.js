@@ -27,7 +27,7 @@ export default function Analytics(props){
     // TODO: add in pertinent alert info (room number, temperature, time of alert)
     return (
                 <div>
-                    <h1>Analytics</h1>    
+                    <h1>Analytics</h1>
                     {
                         loading ? <div>Loading alerts...</div> : null
                     }
@@ -36,7 +36,7 @@ export default function Analytics(props){
                             loading ? null : alerts.map((alert, idx) => {
                                 return (
                                     <li key={idx}>
-                                        {alert.inserted}
+                                        {alert._id}
                                     </li>
                                 );
                             })

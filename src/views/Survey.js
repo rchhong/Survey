@@ -43,11 +43,11 @@ export default function Survey(props) {
 
 
     const handleSubmit = () => {
-        let payload = [];
+        let payload = {};
         Object.keys(results).forEach((key, index) => {
-            payload.push({question : key, result : results[key]});
+            payload[key] = results[key];
         });
-        pushResults({result : payload, inserted : new Date()}, id)
+        pushResults({...payload, inserted : new Date()}, id)
 
         // fetch("http://localhost:5000/api/results/add", {
         //     method: 'POST',
