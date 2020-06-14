@@ -45,7 +45,11 @@ export default function Survey(props) {
     const handleSubmit = () => {
         let payload = {};
         Object.keys(results).forEach((key, index) => {
-            payload[key] = results[key];
+            if(isNaN(Number(results[key]))){
+                payload[key] = results[key];
+            }else{
+                payload[key] = Number(results[key]);
+            }
         });
         pushResults({...payload, inserted : new Date()}, id)
 
