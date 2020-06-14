@@ -34,6 +34,17 @@ class Firebase {
         });
     }
 
+    getAlerts = () => {
+        return new Promise((res, rej) => {
+            this.db.collection('questions-residents').where('temperature', '>', 99.0).orderBy('inserted').get().then((querySnapshot) => {
+                let ret = [];
+                querySnapshot.forEach((doc) =>{
+                    ret.push({_id : doc.id, ...doc.data()});
+                })
+            })
+        });
+    }
+
     // TODO: resolve hotfix
     pushQuestion = (question, id) => {
         this.db.collection('questions-' + id).doc(question.title).set(question);
