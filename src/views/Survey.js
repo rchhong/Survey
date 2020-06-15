@@ -8,37 +8,24 @@ export default function Survey(props) {
 
     const {getQuestions, pushResults} = useContext(FirebaseContext);
 
+
     const id = props.match.params.id;
 
     useEffect(() => {
         let isSubscribed = true;
-        // const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-        // let getQuestions = async () => {
-        //     await fetch(SERVER_URL + '/api/questions/')
-        //     .then((res) => res.json())
-        //     .then((data) => {
-        //         if(isSubscribed) {
-        //             setQuestions(data.questions);
-        //             setLoading(false);
-        //         }
-        //     });
-        // }
-        let getData = async () => {
+        (async () => {
             await getQuestions(id).then((data) => {
                 if(isSubscribed) {
                     setQuestions(data);
                     setLoading(false);
                 }
             });
-        }
-        getData();
-
+        })();
         return () => {isSubscribed = false;}
-    }, [getQuestions, questions, id]);
+    }, [id, getQuestions]);
 
     const handleChange = (e, index) => {
-        setResults({...results, [questions[index].title] : e.target.value});
-        console.log(results);
+        setResults({...results, [questions[index].title] : e.target.value, inserted : new Date()});
     }
 
 
@@ -48,15 +35,6 @@ export default function Survey(props) {
             payload.push({question : key, result : results[key]});
         });
         pushResults({result : payload, inserted : new Date()}, id)
-
-        // fetch("http://localhost:5000/api/results/add", {
-        //     method: 'POST',
-        //     headers: {
-        //         Accept: 'application/json',
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body : JSON.stringify({results : payload})
-        // })
         setResults({});
     }
 

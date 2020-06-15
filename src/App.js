@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useReducer, useMemo, useContext, useEffect } from 'react';
 import { BrowserRouter as Router,
          Switch,
          Route,
@@ -7,24 +7,59 @@ import { BrowserRouter as Router,
 import Home from './views/Home';
 import Survey from './views/Survey';
 import EditSurvey from './views/EditSurvey';
+import Login from './views/Login';
+import Error from './views/Error';
 
-import Firebase from './firebase/firebase';
-import { FirebaseProvider } from './firebase/firebaseContext';
+import { AuthProvider } from './auth/authContext';
+import FirebaseContext from './firebase/firebaseContext';
+
+function reducer(prevState, action) {
+  switch(action.type) {
+    case "LOG_IN":
+      return {...prevState, user: action.user};
+    case "LOG_OUT":
+      return {...prevState, user: null};
+    case "RESTORE_USER":
+      return {...prevState, user: action.user};
+    default:
+      throw Error("Invalid Reducer Action");
+  }
+}
 
 export default function App() {
+  let intialState = {user : null};
+
+  const [state, dispatch] = useReducer(reducer, intialState);
+  const Firebase = useContext(FirebaseContext);
+
+  useEffect(() => {
+    let persistLogin = 
+      Firebase.auth.onAuthStateChanged((user) => {
+
+        if(user) dispatch({type: "RESTORE_USER", user});
+        else dispatch({type: "RESTORE_USER", user: null});
+      })
+
+    return () => persistLogin();
+  })
+
+  const authContext = useMemo(() => ({
+    ...state
+  }), [state]);
+
   return (
-    <FirebaseProvider value={new Firebase()}>
+  <AuthProvider value={authContext}>
       <Router>
           <div className='main-container'>
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/survey/:id" component={Survey} />
               <Route path='/edit/:id' component={EditSurvey} />
+              <Route path='/login' component={Login} />
             </Switch>
           </div>
       </Router>
-    </FirebaseProvider>
-
+  </AuthProvider>
   );
 }
 

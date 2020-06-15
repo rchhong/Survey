@@ -1,58 +1,57 @@
 import React, { useState, useEffect, useContext } from 'react';
 import FirebaseContext from '../firebase/firebaseContext'
+import AuthContext from '../auth/authContext';
 
 export default function EditSurvey(props) {
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [title, setTitle] = useState("");
 
-    const {getQuestions, pushQuestion} = useContext(FirebaseContext);
+    const {getQuestions, pushQuestion, deleteQuestion} = useContext(FirebaseContext);
+    const user = useContext(AuthContext);
 
     const id = props.match.params.id;
 
     useEffect(() => {
+        if(user.user === null) props.history.push("/login");
+    }, [user, props.history]); 
+
+    useEffect(() => {
         let isSubscribed = true;
-        // const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-        // let getQuestions = async () => {
-        //     await fetch(SERVER_URL + '/api/questions/')
-        //     .then((res) => res.json())
-        //     .then((data) => {
-        //         if(isSubscribed) {
-        //             setQuestions(data.questions);
-        //             setLoading(false);
-        //         }
-        //     });
-        // }
-        let getData = async () => {
+        (async () => {
             await getQuestions(id).then((data) => {
                 if(isSubscribed) {
                     setQuestions(data);
                     setLoading(false);
                 }
             });
-        }
-        getData();
-
+        })();
         return () => {isSubscribed = false;}
-    }, [getQuestions, questions, id]);
+    }, [id, getQuestions]);
 
 
 
     const handleSubmit = () => {
-        // const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-        // fetch(SERVER_URL + "/api/questions/add", {
-        //     method: 'POST',
-        //     headers: {
-        //         Accept: 'application/json',
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body : JSON.stringify({title})
-        // })
-        console.log('id is ' + id);
         pushQuestion({title, inserted : new Date()}, id);
+        (async () => {
+            await getQuestions(id).then((data) => {
+                    setQuestions(data);
+            });
+        })();
         setTitle("");
     }
-    
+
+    const handleDelete = q => {
+        //TODO: hotfixed
+        deleteQuestion({title : q, inserted : new Date()}, id);
+        (async () => {
+            await getQuestions(id).then((data) => {
+                    setQuestions(data);
+            });
+        })();
+        setTitle("");
+    }
+
     return (
         <div>
             <h1>Edit Survey</h1>
@@ -61,7 +60,14 @@ export default function EditSurvey(props) {
             }
             <ol>
                 {loading ? null : questions.map((question, index) => {
-                    return <li key={index}>{question.title}</li>;
+                    return (
+                                <li key={index}>
+                                    {question.title} 
+                                    <button value={question.title} onClick={e => {handleDelete(e.target.value);}}>
+                                        Delete
+                                    </button>
+                                </li>
+                            );
                 })}
             </ol>
             <input type="text" value={title} onChange={e => setTitle(e.target.value)}></input>

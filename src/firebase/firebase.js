@@ -34,12 +34,29 @@ class Firebase {
         });
     }
 
+    // TODO: resolve hotfix
     pushQuestion = (question, id) => {
-        this.db.collection('questions-' + id).add(question);
-    }
+        this.db.collection('questions-' + id).doc(question.title).set(question);
+    };
 
     pushResults = (result, id) => {
-        this.db.collection('results-' + id).add(result);
+        this.db.collection('results-' + id).doc(result.inserted.toString()).set(result);
+    };
+
+    deleteQuestion = (question, id) => {
+        this.db.collection('questions-' + id).doc(question.title).delete().then(() => {
+            console.log("Document deleted.");
+        }).catch((err) => {
+            console.error("Error removing document: ", err);
+        });
+    };
+
+    signInFirebase = (email, password) => {
+        return this.auth.signInWithEmailAndPassword(email, password);
+    }
+
+    signOutFirebase = () => {
+        return this.auth.signOut();
     }
 }
 
