@@ -36,7 +36,7 @@ class Firebase {
 
     getAlerts = () => {
         return new Promise((res, rej) => {
-            this.db.collection('results-residents').orderBy('inserted').get().then((querySnapshot) => {
+            this.db.collection('results-residents').where('Temperature', '>', 99).orderBy('Temperature').get().then((querySnapshot) => {
                 let ret = [];
                 querySnapshot.forEach((doc) =>{
                     console.log("object is ", {_id : doc.id, ...doc.data()});
