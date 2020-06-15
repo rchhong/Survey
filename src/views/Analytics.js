@@ -6,7 +6,7 @@ export default function Analytics(props){
     const [alerts, setAlerts] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const { getAlerts } = useContext(FirebaseContext);
+    const { getAlerts, deleteAlerts } = useContext(FirebaseContext);
 
     useEffect(() => {
         let isSubscribed = true;
@@ -23,7 +23,10 @@ export default function Analytics(props){
         return () => {isSubscribed = false;}
     }, [getAlerts, alerts]);
 
-    
+    const handleDelete = (val) => {
+        deleteAlerts({_id : val});
+    }
+
     // TODO: add in pertinent alert info (room number, temperature, time of alert)
     return (
                 <div>
@@ -37,6 +40,9 @@ export default function Analytics(props){
                                 return (
                                     <li key={idx}>
                                         {alert._id}
+                                        <button value={alert._id} onClick={e => {handleDelete(e.target.value);}}>
+                                            Dismiss Alert
+                                        </button>
                                     </li>
                                 );
                             })
