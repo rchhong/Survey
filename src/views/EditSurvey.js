@@ -5,6 +5,7 @@ export default function EditSurvey(props) {
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [title, setTitle] = useState("");
+    const [changed, setChanged] = useState(false);
 
     const {getQuestions, pushQuestion, deleteQuestion} = useContext(FirebaseContext);
 
@@ -12,17 +13,6 @@ export default function EditSurvey(props) {
 
     useEffect(() => {
         let isSubscribed = true;
-        // const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-        // let getQuestions = async () => {
-        //     await fetch(SERVER_URL + '/api/questions/')
-        //     .then((res) => res.json())
-        //     .then((data) => {
-        //         if(isSubscribed) {
-        //             setQuestions(data.questions);
-        //             setLoading(false);
-        //         }
-        //     });
-        // }
         let getData = async () => {
             await getQuestions(id).then((data) => {
                 if(isSubscribed) {
@@ -32,31 +22,25 @@ export default function EditSurvey(props) {
             });
         }
         getData();
-        console.log("effect running");
+        setChanged(false);
+
         return () => {isSubscribed = false;}
-    }, [getQuestions, id]);
+    }, [getQuestions, id, changed]);
 
 
 
     const handleSubmit = () => {
-        // const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-        // fetch(SERVER_URL + "/api/questions/add", {
-        //     method: 'POST',
-        //     headers: {
-        //         Accept: 'application/json',
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body : JSON.stringify({title})
-        // })
-        console.log('id is ' + id);
         pushQuestion({title, inserted : new Date()}, id);
         setTitle("");
+        setChanged(true);
+        console.log('changed is', changed)
     }
 
     const handleDelete = q => {
         //TODO: hotfixed
         deleteQuestion({title : q, inserted : new Date()}, id);
         setTitle("");
+        setChanged(true);
     }
 
     return (

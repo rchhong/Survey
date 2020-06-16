@@ -12,17 +12,6 @@ export default function Survey(props) {
 
     useEffect(() => {
         let isSubscribed = true;
-        // const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-        // let getQuestions = async () => {
-        //     await fetch(SERVER_URL + '/api/questions/')
-        //     .then((res) => res.json())
-        //     .then((data) => {
-        //         if(isSubscribed) {
-        //             setQuestions(data.questions);
-        //             setLoading(false);
-        //         }
-        //     });
-        // }
         let getData = async () => {
             await getQuestions(id).then((data) => {
                 if(isSubscribed) {
@@ -32,7 +21,6 @@ export default function Survey(props) {
             });
         }
         getData();
-        console.log('Effect running');
 
         return () => {isSubscribed = false;}
     }, [getQuestions, id]);
@@ -53,15 +41,6 @@ export default function Survey(props) {
             }
         });
         pushResults({...payload, inserted : new Date()}, id)
-
-        // fetch("http://localhost:5000/api/results/add", {
-        //     method: 'POST',
-        //     headers: {
-        //         Accept: 'application/json',
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body : JSON.stringify({results : payload})
-        // })
         setResults({});
     }
 

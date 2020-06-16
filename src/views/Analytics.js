@@ -5,6 +5,7 @@ export default function Analytics(props){
 
     const [alerts, setAlerts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [changed, setChanged] = useState(false);
 
     const { getAlerts, deleteAlerts } = useContext(FirebaseContext);
 
@@ -19,13 +20,16 @@ export default function Analytics(props){
             });
         }
         getData();
-        console.log('Effect running');
+        setChanged(false);
+        console.log('effect running');
 
         return () => {isSubscribed = false;}
-    }, [getAlerts]);
+    }, [getAlerts, changed]);
 
     const handleDelete = (val) => {
         deleteAlerts({_id : val});
+        setChanged(true);
+        console.log('changed is ', changed)
     }
 
     // TODO: add in pertinent alert info (room number, temperature, time of alert)
