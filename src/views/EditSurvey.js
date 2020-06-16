@@ -32,9 +32,9 @@ export default function EditSurvey(props) {
             });
         }
         getData();
-
+        console.log("effect running");
         return () => {isSubscribed = false;}
-    }, [getQuestions, questions, id]);
+    }, [getQuestions, id]);
 
 
 

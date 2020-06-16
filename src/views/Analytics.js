@@ -19,9 +19,10 @@ export default function Analytics(props){
             });
         }
         getData();
+        console.log('Effect running');
 
         return () => {isSubscribed = false;}
-    }, [getAlerts, alerts]);
+    }, [getAlerts]);
 
     const handleDelete = (val) => {
         deleteAlerts({_id : val});

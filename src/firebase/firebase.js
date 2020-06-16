@@ -36,10 +36,9 @@ class Firebase {
 
     getAlerts = () => {
         return new Promise((res, rej) => {
-            this.db.collection('results-residents').where('Temperature', '>', 99).orderBy('Temperature').get().then((querySnapshot) => {
+            this.db.collection('alerts').orderBy('inserted').get().then((querySnapshot) => {
                 let ret = [];
                 querySnapshot.forEach((doc) =>{
-                    console.log("object is ", {_id : doc.id, ...doc.data()});
                     ret.push({_id : doc.id, ...doc.data()});
                 })
                 return ret;
@@ -54,6 +53,9 @@ class Firebase {
 
     pushResults = (result, id) => {
         this.db.collection('results-' + id).doc(result.inserted.toString()).set(result);
+        if(id === 'residents' && result.Temperature > 99){
+            this.db.collection('alerts').doc(result.inserted.toString()).set(result);
+        }
     }
 
     deleteQuestion = (question, id) => {
@@ -61,6 +63,14 @@ class Firebase {
             console.log("Document deleted.");
         }).catch((err) => {
             console.error("Error removing document: ", err);
+        });
+    }
+
+    deleteAlerts = (alert) => {
+        this.db.collection('alerts').doc(alert._id).delete().then(() =>{
+            console.log("Alert deleted.");
+        }).catch((err) => {
+            console.error("Error removing alert: ", err);
         });
     }
 }

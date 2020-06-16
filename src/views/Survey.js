@@ -32,9 +32,10 @@ export default function Survey(props) {
             });
         }
         getData();
+        console.log('Effect running');
 
         return () => {isSubscribed = false;}
-    }, [getQuestions, questions, id]);
+    }, [getQuestions, id]);
 
     const handleChange = (e, index) => {
         setResults({...results, [questions[index].title] : e.target.value, inserted : new Date()});
