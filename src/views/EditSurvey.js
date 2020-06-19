@@ -57,6 +57,10 @@ export default function EditSurvey(props) {
                                     <button value={question.title} onClick={e => {handleDelete(e.target.value);}}>
                                         Delete
                                     </button>
+                                    <select name="question-type" id="type" onChange={}>
+                                        <option value="text">Text</option>
+                                        <option value="checkbox">Check Box</option>
+                                    </select>
                                 </li>
                             );
                 })}

@@ -73,6 +73,19 @@ class Firebase {
             console.error("Error removing alert: ", err);
         });
     }
+
+    dumpData = (id) => {
+        console.log('id is', id);
+        return new Promise((res, rej) => {
+            this.db.collection('results-' + id).orderBy('inserted').get().then((querySnapshot) => {
+                let ret = [];
+                querySnapshot.forEach((doc) => {
+                    ret.push({id : doc.id, ...doc.data()});
+                });
+                return ret;
+            }).then((ret) => res(ret));
+        });
+    }
 }
 
 export default Firebase;
