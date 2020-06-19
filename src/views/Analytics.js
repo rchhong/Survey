@@ -61,17 +61,23 @@ export default function Analytics(props){
                 <div>
                     <h1>Analytics</h1>
                     {
-                        loading ? <div>Loading alerts...</div> : null
+                        loading ? <div>Loading...</div> : null
                     }
                     {
-                        formIds.map((id, idx) => {
+                        loading ? null : <h2>Download Form Data</h2>
+                    }      
+                    {
+                        loading ? null : formIds.map((id, idx) => {
                             return(
                                 <button key={id} value={id} onClick={e => {handleDownload(e.target.value)}}>
                                     Download {id} data
                                 </button>
                             )
                         })
-                    }        
+                    }
+                    {
+                        loading ? null : <h2>Health Alerts</h2>
+                    }
                     <ol>
                         {
                             loading ? null : alerts.map((alert, idx) => {

@@ -17,6 +17,10 @@ export default function Home() {
             <br></br>
             <Link to="/edit/residents">Edit Resident Log</Link>        
             <br></br>
+            <Link to="/survey/sanitization">Room Sanitization Log</Link>
+            <br></br>
+            <Link to="/edit/sanitization">Edit Room Sanitization Log</Link>
+            <br></br>
             <Link to="/analytics">Analytics</Link>
         </div>
     );
