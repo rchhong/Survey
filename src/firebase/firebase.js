@@ -66,6 +66,16 @@ class Firebase {
         });
     }
 
+    changeQuestionType = (question, id, qtype) => {
+        this.db.collection('questions-' + id).doc(question.title).update({
+            type : qtype
+        }).then(() => {
+            console.log("Question type updated.");
+        }).catch((err) => {
+            console.error("Error changing question type: ", err);
+        });
+    }
+
     deleteAlerts = (alert) => {
         this.db.collection('alerts').doc(alert._id).delete().then(() =>{
             console.log("Alert deleted.");

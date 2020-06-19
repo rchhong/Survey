@@ -26,13 +26,18 @@ export default function Survey(props) {
     }, [getQuestions, id]);
 
     const handleChange = (e, index) => {
-        setResults({...results, [questions[index].title] : e.target.value, inserted : new Date()});
+        if(questions[index].type == 'text'){
+            setResults({...results, [questions[index].title] : e.target.value, inserted : new Date()});
+        } else {
+            setResults({...results, [questions[index].title] : e.target.checked, inserted : new Date()});
+        }
         console.log(results);
     }
 
 
     const handleSubmit = () => {
         let payload = {};
+        console.log(payload);
         Object.keys(results).forEach((key, index) => {
             if(isNaN(Number(results[key]))){
                 payload[key] = results[key];
@@ -52,12 +57,12 @@ export default function Survey(props) {
             }
             {
                 loading ? null : questions.map((question, index) => {
-                    return (
-                        <div key={index}>
-                            <div>{ question.title }</div>
-                            <input type="text" value={results[question.title] || ''} onChange={e => handleChange(e, index)}></input>
-                        </div>
-                    )
+                     return (
+                         <div key={index}>
+                             <div>{ question.title }</div>
+                             <input type={ question.type } value={results[question.title] || ''} onChange={e => handleChange(e, index)}></input>
+                         </div>
+                     )
                 })
             }
             <button onClick={handleSubmit.bind(this)}>Submit</button>

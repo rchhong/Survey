@@ -7,7 +7,7 @@ export default function EditSurvey(props) {
     const [title, setTitle] = useState("");
     const [changed, setChanged] = useState(false);
 
-    const {getQuestions, pushQuestion, deleteQuestion} = useContext(FirebaseContext);
+    const {getQuestions, pushQuestion, deleteQuestion, changeQuestionType} = useContext(FirebaseContext);
 
     const id = props.match.params.id;
 
@@ -30,7 +30,7 @@ export default function EditSurvey(props) {
 
 
     const handleSubmit = () => {
-        pushQuestion({title, inserted : new Date()}, id);
+        pushQuestion({title, inserted : new Date(), type : 'text'}, id);
         setTitle("");
         setChanged(true);
         console.log('changed is', changed)
@@ -38,7 +38,13 @@ export default function EditSurvey(props) {
 
     const handleDelete = q => {
         //TODO: hotfixed
-        deleteQuestion({title : q, inserted : new Date()}, id);
+        deleteQuestion({title : q, inserted : new Date(), type : ''}, id);
+        setTitle("");
+        setChanged(true);
+    }
+
+    const handleTypeChange = (q, t) => {
+        changeQuestionType({title: q, inserted : new Date(), type : t}, id, t);
         setTitle("");
         setChanged(true);
     }
@@ -57,7 +63,7 @@ export default function EditSurvey(props) {
                                     <button value={question.title} onClick={e => {handleDelete(e.target.value);}}>
                                         Delete
                                     </button>
-                                    <select name="question-type" id="type" onChange={}>
+                                    <select name="question-type" id="type" value= {question.type} onChange={e => handleTypeChange(question.title, e.target.value)}>
                                         <option value="text">Text</option>
                                         <option value="checkbox">Check Box</option>
                                     </select>
