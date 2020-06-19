@@ -26,7 +26,7 @@ export default function Survey(props) {
     }, [getQuestions, id]);
 
     const handleChange = (e, index) => {
-        if(questions[index].type == 'text'){
+        if(questions[index].type === 'text'){
             setResults({...results, [questions[index].title] : e.target.value, inserted : new Date()});
         } else {
             setResults({...results, [questions[index].title] : e.target.checked, inserted : new Date()});
