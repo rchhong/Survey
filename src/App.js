@@ -9,6 +9,7 @@ import Survey from './views/Survey';
 import EditSurvey from './views/EditSurvey';
 import Login from './views/Login';
 import Error from './views/Error';
+import Checklist from './views/Checklist';
 
 import { AuthProvider } from './auth/authContext';
 import FirebaseContext from './firebase/firebaseContext';
@@ -56,6 +57,7 @@ export default function App() {
               <Route path="/survey/:id" component={Survey} />
               <Route path='/edit/:id' component={EditSurvey} />
               <Route path='/login' component={Login} />
+              <Route path='/sanitize' component={Checklist} />
             </Switch>
           </div>
       </Router>
