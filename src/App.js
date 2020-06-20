@@ -7,14 +7,10 @@ import { BrowserRouter as Router,
 import Home from './views/Home';
 import Survey from './views/Survey';
 import EditSurvey from './views/EditSurvey';
-<<<<<<< HEAD
 import Analytics from './views/Analytics';
-=======
 import Login from './views/Login';
 import Error from './views/Error';
 import Checklist from './views/Checklist';
->>>>>>> origin/auth
-
 import { AuthProvider } from './auth/authContext';
 import FirebaseContext from './firebase/firebaseContext';
 

@@ -34,8 +34,10 @@ export default function Home(props) {
             <br></br>
             <Link to="/survey/sanitize">Cleaning Log</Link>
             <br></br>
-                <Link to="/edit/sanitize">Edit Cleaning Log</Link>
+            <Link to="/edit/sanitize">Edit Cleaning Log</Link>
             <br></br>
+            <Link to="/analytics">Analytics</Link>
+            <br></br>    
             <button onClick={() => handleSignOut()}>Log Out</button>
         </div>
     );
