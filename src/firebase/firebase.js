@@ -95,6 +95,14 @@ class Firebase {
                 return ret;
             }).then((ret) => res(ret));
         });
+    };
+
+    signInFirebase = (email, password) => {
+        return this.auth.signInWithEmailAndPassword(email, password);
+    }
+
+    signOutFirebase = () => {
+        return this.auth.signOut();
     }
 }
 

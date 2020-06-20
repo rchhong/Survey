@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useReducer, useMemo, useContext, useEffect } from 'react';
 import { BrowserRouter as Router,
          Switch,
          Route,
@@ -7,14 +7,53 @@ import { BrowserRouter as Router,
 import Home from './views/Home';
 import Survey from './views/Survey';
 import EditSurvey from './views/EditSurvey';
+<<<<<<< HEAD
 import Analytics from './views/Analytics';
+=======
+import Login from './views/Login';
+import Error from './views/Error';
+import Checklist from './views/Checklist';
+>>>>>>> origin/auth
 
-import Firebase from './firebase/firebase';
-import { FirebaseProvider } from './firebase/firebaseContext';
+import { AuthProvider } from './auth/authContext';
+import FirebaseContext from './firebase/firebaseContext';
+
+function reducer(prevState, action) {
+  switch(action.type) {
+    case "LOG_IN":
+      return {...prevState, user: action.user};
+    case "LOG_OUT":
+      return {...prevState, user: null};
+    case "RESTORE_USER":
+      return {...prevState, user: action.user};
+    default:
+      throw Error("Invalid Reducer Action");
+  }
+}
 
 export default function App() {
+  let intialState = {user : null};
+
+  const [state, dispatch] = useReducer(reducer, intialState);
+  const Firebase = useContext(FirebaseContext);
+
+  useEffect(() => {
+    let persistLogin = 
+      Firebase.auth.onAuthStateChanged((user) => {
+
+        if(user) dispatch({type: "RESTORE_USER", user});
+        else dispatch({type: "RESTORE_USER", user: null});
+      })
+
+    return () => persistLogin();
+  })
+
+  const authContext = useMemo(() => ({
+    ...state
+  }), [state]);
+
   return (
-    <FirebaseProvider value={new Firebase()}>
+  <AuthProvider value={authContext}>
       <Router>
           <div className='main-container'>
             <Switch>
@@ -22,11 +61,12 @@ export default function App() {
               <Route path='/survey/:id' component={Survey} />
               <Route path='/edit/:id' component={EditSurvey} />
               <Route path='/analytics' component={Analytics} />
+              <Route path='/login' component={Login} />
+              <Route path='/sanitize' component={Checklist} />
             </Switch>
           </div>
       </Router>
-    </FirebaseProvider>
-
+  </AuthProvider>
   );
 }
 

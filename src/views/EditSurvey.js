@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import FirebaseContext from "../firebase/firebaseContext";
 import "./EditSurvey.css";
+import AuthContext from '../auth/authContext';
 
 export default function EditSurvey(props) {
   const [questions, setQuestions] = useState([]);
@@ -14,6 +15,7 @@ export default function EditSurvey(props) {
     deleteQuestion,
     changeQuestionType,
   } = useContext(FirebaseContext);
+  const user = useContext(AuthContext);
 
   const id = props.match.params.id;
 
@@ -34,6 +36,10 @@ export default function EditSurvey(props) {
       isSubscribed = false;
     };
   }, [getQuestions, id, changed]);
+    
+  useEffect(() => {
+    if(user.user === null) props.history.push("/login");
+  }, [user, props.history]); 
 
   const handleSubmit = () => {
     pushQuestion({ title, inserted: new Date(), type: "text" }, id);
