@@ -1,27 +1,31 @@
-import React from 'react';
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
+import "./Home.css";
 
 export default function Home() {
-    return (
-        <div>
-            <h1>Home</h1>
-            <Link to="/survey/visitors">Visitor Log</Link>
-            <br></br>
-            <Link to="/edit/visitors">Edit Visitor Log</Link>
-            <br></br>
-            <Link to="/survey/team">Team Member Log</Link>
-            <br></br>
-            <Link to="/edit/team">Edit Team Member Log</Link>
-            <br></br>
-            <Link to="/survey/residents">Resident Log</Link>
-            <br></br>
-            <Link to="/edit/residents">Edit Resident Log</Link>        
-            <br></br>
-            <Link to="/survey/sanitization">Room Sanitization Log</Link>
-            <br></br>
-            <Link to="/edit/sanitization">Edit Room Sanitization Log</Link>
-            <br></br>
-            <Link to="/analytics">Analytics</Link>
-        </div>
-    );
+  return (
+    <div class="main">
+      <h1>Logs</h1>
+      <div class="button-container">
+        <a href="/survey/visitors" class="button">
+          Visitor Log
+        </a>
+        <a href="/edit/visitors" class="button">
+          Edit Visitor Log
+        </a>
+        <a href="/survey/team" class="button">
+          Team Member Log
+        </a>
+        <a href="edit/team" class="button">
+          Edit Team Member Log
+        </a>
+        <a href="/survey/residents" class="button">
+          Resident Log
+        </a>
+        <a href="/edit/residents" class="button">
+          Edit Resident Log
+        </a>
+      </div>
+    </div>
+  );
 }
