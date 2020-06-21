@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import FirebaseContext from "../firebase/firebaseContext";
 import "./EditSurvey.css";
 import AuthContext from '../auth/authContext';
@@ -19,12 +19,11 @@ export default function EditSurvey(props) {
 
   const id = props.match.params.id;
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     pushQuestion({ title, inserted: new Date(), type: "text" }, id);
     setTitle("");
     setChanged(true);
-    console.log("changed is", changed);
-  };
+  }, [pushQuestion, setTitle, setChanged, id, title]);
 
   const handleDelete = (q) => {
     //TODO: hotfixed
