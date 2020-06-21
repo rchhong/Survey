@@ -115,6 +115,7 @@ class Firebase {
                         let ret = [];
                         querySnapshot.forEach((doc) => {
                             let data = doc.data();
+                            // eslint-disable-next-line
                             if(data.inserted.seconds * 1000 >= furthestBack && data["Room Number"] == roomNum) {
                                 ret.push({id : doc.id, ...doc.data()});
                             }

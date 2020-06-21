@@ -122,11 +122,28 @@ export default function Analytics(props){
                                         <h3>{contactGroup.type}</h3>
                                         {
                                         contactGroup.data.map((contact, index) => (
-                                            <li key={index}>{contact.Name}</li>
+                                            <li key={index}> 
+                                                {
+                                                    Object.keys(contact).map((key,idx2) => {
+                                                        if(key !== '_id' && key !== 'id' && key !== 'inserted'){
+                                                            return (
+                                                                <div>
+                                                                    {String(key) + ": " + String(contact[key])}
+                                                                </div>
+                                                            )
+                                                        }else if(key == 'id'){
+                                                            return (
+                                                                <div>
+                                                                    {"Time: " + String(contact[key])}
+                                                                </div>
+                                                            )
+                                                        }
+                                                    })
+                                                }    
+                                            </li>
                                         ))
                                         }
                                     </div>
-
                                 );
                             })
                         }
