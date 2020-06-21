@@ -7,8 +7,11 @@ export default function Analytics(props){
     const [alerts, setAlerts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [changed, setChanged] = useState(false);
+    const [numDays, setNumDays] = useState(14);
+    const [roomNum, setRoomNum] = useState(0);
+    const [contactData, setContactData] = useState([]);
 
-    const { getAlerts, deleteAlerts, dumpData } = useContext(FirebaseContext);
+    const { getAlerts, deleteAlerts, dumpData, getContactTracing} = useContext(FirebaseContext);
 
     const formIds = ['residents', 'visitors', 'team']
 
@@ -56,6 +59,10 @@ export default function Analytics(props){
         getData();
     }
 
+    const handleContactTracing = async (roomNum, numDays) => {
+        await getContactTracing(roomNum, numDays).then((results) => setContactData(results))
+    }
+
     // TODO: add in pertinent alert info (room number, temperature, time of alert)
     return (
                 <div>
@@ -88,6 +95,38 @@ export default function Analytics(props){
                                             Dismiss Alert
                                         </button>
                                     </li>
+                                );
+                            })
+                        }
+                    </ol>
+                    {
+                        loading ? null : <h2>Contact Tracing</h2>
+                    }
+                    {
+                        loading ? null : 
+                        <div>
+                            <div>Room Number</div>
+                            <input type="number" value={roomNum} onChange={(e) => setRoomNum(e.target.value)} />
+                            <br></br>
+                            <div>{`Number of Days: ${numDays}`}</div>
+                            <input type="range" min="1" max="28" value={numDays} onChange={(e) => setNumDays(e.target.value)} step="1" />
+                            <br></br>
+                            <button onClick={() => handleContactTracing(roomNum, numDays)}>Submit</button>
+                        </div>
+                    }
+                    <ol>
+                        {
+                            loading ? null : contactData.map((contactGroup, idx) => {
+                                return (
+                                    <div key={idx}>
+                                        <h3>{contactGroup.type}</h3>
+                                        {
+                                        contactGroup.data.map((contact, index) => (
+                                            <li key={index}>{contact.Name}</li>
+                                        ))
+                                        }
+                                    </div>
+
                                 );
                             })
                         }

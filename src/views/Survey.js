@@ -59,6 +59,19 @@ export default function Survey(props) {
     setResults({});
   };
 
+  useEffect(() => {
+
+    let handleKeyPress = (e) => {
+      if(e.keyCode === 13) {
+        handleSubmit();
+      }
+    }
+
+    document.addEventListener("keypress", handleKeyPress);
+
+    return () => {document.removeEventListener("keypress", handleKeyPress)}
+  }, [handleSubmit])
+
   return (
     <div class="main">
       <h1>Survey</h1>

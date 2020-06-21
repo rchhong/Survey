@@ -19,6 +19,26 @@ export default function EditSurvey(props) {
 
   const id = props.match.params.id;
 
+  const handleSubmit = () => {
+    pushQuestion({ title, inserted: new Date(), type: "text" }, id);
+    setTitle("");
+    setChanged(true);
+    console.log("changed is", changed);
+  };
+
+  const handleDelete = (q) => {
+    //TODO: hotfixed
+    deleteQuestion({ title: q, inserted: new Date(), type: "" }, id);
+    setTitle("");
+    setChanged(true);
+  };
+
+  const handleTypeChange = (q, t) => {
+    changeQuestionType({ title: q, inserted: new Date(), type: t }, id, t);
+    setTitle("");
+    setChanged(true);
+  };
+
   useEffect(() => {
     let isSubscribed = true;
     let getData = async () => {
@@ -41,28 +61,23 @@ export default function EditSurvey(props) {
     if(user.user === null) props.history.push("/login");
   }, [user, props.history]); 
 
-  const handleSubmit = () => {
-    pushQuestion({ title, inserted: new Date(), type: "text" }, id);
-    setTitle("");
-    setChanged(true);
-    console.log("changed is", changed);
-  };
+  useEffect(() => {
 
-  const handleDelete = (q) => {
-    //TODO: hotfixed
-    deleteQuestion({ title: q, inserted: new Date(), type: "" }, id);
-    setTitle("");
-    setChanged(true);
-  };
+    let handleKeyPress = (e) => {
+      if(e.keyCode === 13) {
+        handleSubmit();
+      }
+    }
 
-  const handleTypeChange = (q, t) => {
-    changeQuestionType({ title: q, inserted: new Date(), type: t }, id, t);
-    setTitle("");
-    setChanged(true);
-  };
+    document.addEventListener("keypress", handleKeyPress);
+
+    return () => {document.removeEventListener("keypress", handleKeyPress)}
+  }, [handleSubmit])
+
+
 
   return (
-    <div class="main">
+    <div className="main">
       <h1>Edit Survey</h1>
       {loading ? <div>loading</div> : null}
       <ol>
@@ -70,8 +85,8 @@ export default function EditSurvey(props) {
           ? null
           : questions.map((question, index) => {
               return (
-                <div class="question-container">
-                  <li key={index}>
+                <div class="question-container" key={index}>
+                  <li>
                     <div class="question-text">{question.title}</div>
 
                     <div class="buttons-selections">

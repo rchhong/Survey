@@ -104,6 +104,28 @@ class Firebase {
     signOutFirebase = () => {
         return this.auth.signOut();
     }
+
+    getContactTracing = (roomNum, numDays) => {
+        let furthestBack = new Date() - numDays * 24 * 60 * 60 * 1000;
+        let ids = ['residents', 'team', 'visitors'];
+
+        let requests = ids.map(id => (
+            new Promise((res, rej) => {
+                    this.db.collection('results-' + id).orderBy('inserted').get().then((querySnapshot) => {
+                        let ret = [];
+                        querySnapshot.forEach((doc) => {
+                            let data = doc.data();
+                            if(data.inserted.seconds * 1000 >= furthestBack && data["Room Number"] == roomNum) {
+                                ret.push({id : doc.id, ...doc.data()});
+                            }
+                        });
+                        return ret;
+                    }).then((data) => res({type : id, data}))
+                })
+        ));
+
+        return Promise.all(requests);
+    }
 }
 
 export default Firebase;
