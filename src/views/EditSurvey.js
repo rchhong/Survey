@@ -93,6 +93,7 @@ export default function EditSurvey(props) {
                       <select
                         name="question-type"
                         id="type"
+                        defaultValue={question.type}  
                         onChange={(e) =>
                           handleTypeChange(question.title, e.target.value)
                         }
