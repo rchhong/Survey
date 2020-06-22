@@ -13,7 +13,7 @@ export default function Analytics(props){
 
     const { getAlerts, deleteAlerts, dumpData, getContactTracing} = useContext(FirebaseContext);
 
-    const formIds = ['residents', 'visitors', 'team']
+    const formIds = ['residents', 'visitors', 'team', 'sanitization']
 
     useEffect(() => {
         let isSubscribed = true;
@@ -90,7 +90,7 @@ export default function Analytics(props){
                             loading ? null : alerts.map((alert, idx) => {
                                 return (
                                     <li key={idx}>
-                                        {alert._id}
+                                        {alert.Name + ', Date: ' + alert._id + ",  Confidence: " + Math.round(alert.confidence * 1000) / 1000}
                                         <button value={alert._id} onClick={e => {handleDelete(e.target.value);}}>
                                             Dismiss Alert
                                         </button>
@@ -131,6 +131,7 @@ export default function Analytics(props){
                                                                     {String(key) + ": " + String(contact[key])}
                                                                 </div>
                                                             )
+                                                        // eslint-disable-next-line
                                                         }else if(key == 'id'){
                                                             return (
                                                                 <div>
@@ -138,6 +139,8 @@ export default function Analytics(props){
                                                                 </div>
                                                             )
                                                         }
+                                                        // eslint-disable-next-line
+                                                        return;
                                                     })
                                                 }    
                                             </li>

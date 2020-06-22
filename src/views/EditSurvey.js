@@ -34,6 +34,7 @@ export default function EditSurvey(props) {
 
   const handleTypeChange = (q, t) => {
     changeQuestionType({ title: q, inserted: new Date(), type: t }, id, t);
+    console.log("type changed to ", t)
     setTitle("");
     setChanged(true);
   };
@@ -84,15 +85,14 @@ export default function EditSurvey(props) {
           ? null
           : questions.map((question, index) => {
               return (
-                <div class="question-container" key={index}>
+                <div className="question-container" key={index}>
                   <li>
-                    <div class="question-text">{question.title}</div>
+                    <div className="question-text">{question.title}</div>
 
-                    <div class="buttons-selections">
+                    <div className="buttons-selections">
                       <select
                         name="question-type"
                         id="type"
-                        value={question.type}
                         onChange={(e) =>
                           handleTypeChange(question.title, e.target.value)
                         }

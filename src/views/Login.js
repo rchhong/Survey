@@ -2,8 +2,6 @@ import React, { useState, useContext, useEffect } from 'react';
 import FirebaseContext from '../firebase/firebaseContext';
 import AuthContext from '../auth/authContext';
 
-
-
 export default function Login(props) {
 
     const [username, setUsername] = useState('');
