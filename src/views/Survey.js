@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import FirebaseContext from "../firebase/firebaseContext";
 import "./Survey.css";
 
@@ -45,7 +45,7 @@ export default function Survey(props) {
     console.log(results);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     let payload = {};
     console.log(payload);
     Object.keys(results).forEach((key, index) => {
@@ -57,7 +57,20 @@ export default function Survey(props) {
     });
     pushResults({ ...payload, inserted: new Date() }, id);
     setResults({});
-  };
+  }, [results, pushResults, setResults, id]);
+
+  useEffect(() => {
+
+    let handleKeyPress = (e) => {
+      if(e.keyCode === 13) {
+        handleSubmit();
+      }
+    }
+
+    document.addEventListener("keypress", handleKeyPress);
+
+    return () => {document.removeEventListener("keypress", handleKeyPress)}
+  }, [handleSubmit])
 
   return (
     <div class="main-survey">

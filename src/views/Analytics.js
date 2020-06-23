@@ -7,10 +7,15 @@ export default function Analytics(props) {
   const [alerts, setAlerts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [changed, setChanged] = useState(false);
+  const [numDays, setNumDays] = useState(14);
+  const [roomNum, setRoomNum] = useState(0);
+  const [contactData, setContactData] = useState([]);
 
-  const { getAlerts, deleteAlerts, dumpData } = useContext(FirebaseContext);
+  const { getAlerts, deleteAlerts, dumpData, getContactTracing } = useContext(
+    FirebaseContext
+  );
 
-  const formIds = ["residents", "visitors", "team"];
+  const formIds = ["residents", "visitors", "team", "sanitization"]
 
   useEffect(() => {
     let isSubscribed = true;
@@ -21,14 +26,14 @@ export default function Analytics(props) {
           setLoading(false);
         }
       });
-    };
+    }
     getData();
     setChanged(false);
     console.log("effect running");
 
     return () => {
       isSubscribed = false;
-    };
+    }
   }, [getAlerts, changed]);
 
   const handleDelete = (val) => {
@@ -62,6 +67,12 @@ export default function Analytics(props) {
     getData();
   };
 
+  const handleContactTracing = async (roomNum, numDays) => {
+    await getContactTracing(roomNum, numDays).then((results) =>
+      setContactData(results)
+    );
+  };
+
   // TODO: add in pertinent alert info (room number, temperature, time of alert)
   return (
     <div class="main-analytics">
@@ -72,18 +83,18 @@ export default function Analytics(props) {
         {loading
           ? null
           : formIds.map((id, idx) => {
-              return (
-                <button
-                  key={id}
-                  value={id}
-                  onClick={(e) => {
-                    handleDownload(e.target.value);
-                  }}
-                >
-                  Download {id} data
-                </button>
-              );
-            })}
+            return (
+              <button
+                key={id}
+                value={id}
+                onClick={(e) => {
+                  handleDownload(e.target.value);
+                }}
+              >
+                Download {id} data
+              </button>
+            );
+          })}
       </div>
       <div class="alerts-container">
         {loading ? null : <h2>Health Alerts</h2>}
@@ -91,22 +102,84 @@ export default function Analytics(props) {
           {loading
             ? null
             : alerts.map((alert, idx) => {
-                return (
-                  <li key={idx}>
-                    {alert._id}
-                    <button
-                      value={alert._id}
-                      onClick={(e) => {
-                        handleDelete(e.target.value);
-                      }}
-                    >
-                      Dismiss Alert
-                    </button>
-                  </li>
-                );
-              })}
+              return (
+                <li key={idx}>
+                  {alert.Name +
+                    ", Date: " +
+                    alert._id +
+                    ",  Confidence: " +
+                    Math.round(alert.confidence * 1000) / 1000}
+                  <button
+                    value={alert._id}
+                    onClick={(e) => {
+                      handleDelete(e.target.value);
+                    }}
+                  >
+                    Dismiss Alert
+                  </button>
+                </li>
+              );
+            })}
         </ol>
       </div>
+      {loading ? null : <h2>Contact Tracing</h2>}
+      {loading ? null : (
+        <div class="trace-container">
+          <div>Room Number</div>
+          <input
+            type="number"
+            value={roomNum}
+            onChange={(e) => setRoomNum(e.target.value)}
+          />
+          <br></br>
+          <div>{`Number of Days: ${numDays}`}</div>
+          <input
+            type="range"
+            min="1"
+            max="28"
+            value={numDays}
+            onChange={(e) => setNumDays(e.target.value)}
+            step="1"
+          />
+          <br></br>
+          <button onClick={() => handleContactTracing(roomNum, numDays)}>
+            Submit
+          </button>
+        </div>
+      )}
+      <ol>
+        {loading
+          ? null
+          : contactData.map((contactGroup, idx) => {
+            return (
+              <div key={idx}>
+                <h3>{contactGroup.type}</h3>
+                {contactGroup.data.map((contact, index) => (
+                  <li key={index}>
+                    {Object.keys(contact).map((key, idx2) => {
+                      if (
+                        key !== "_id" &&
+                        key !== "id" &&
+                        key !== "inserted"
+                      ) {
+                        return (
+                          <div>
+                            {String(key) + ": " + String(contact[key])}
+                          </div>
+                        );
+                        // eslint-disable-next-line
+                      } else if (key == "id") {
+                        return <div>{"Time: " + String(contact[key])}</div>;
+                      }
+                      // eslint-disable-next-line
+                      return;
+                    })}
+                  </li>
+                ))}
+              </div>
+            );
+          })}
+      </ol>
     </div>
   );
 }

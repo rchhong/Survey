@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import FirebaseContext from "../firebase/firebaseContext";
 import "./EditSurvey.css";
 import AuthContext from "../auth/authContext";
@@ -18,6 +18,26 @@ export default function EditSurvey(props) {
   const user = useContext(AuthContext);
 
   const id = props.match.params.id;
+
+  const handleSubmit = useCallback(() => {
+    pushQuestion({ title, inserted: new Date(), type: "text" }, id);
+    setTitle("");
+    setChanged(true);
+  }, [pushQuestion, setTitle, setChanged, id, title]);
+
+  const handleDelete = (q) => {
+    //TODO: hotfixed
+    deleteQuestion({ title: q, inserted: new Date(), type: "" }, id);
+    setTitle("");
+    setChanged(true);
+  };
+
+  const handleTypeChange = (q, t) => {
+    changeQuestionType({ title: q, inserted: new Date(), type: t }, id, t);
+    console.log("type changed to ", t);
+    setTitle("");
+    setChanged(true);
+  };
 
   useEffect(() => {
     let isSubscribed = true;
@@ -41,25 +61,19 @@ export default function EditSurvey(props) {
     if (user.user === null) props.history.push("/login");
   }, [user, props.history]);
 
-  const handleSubmit = () => {
-    pushQuestion({ title, inserted: new Date(), type: "text" }, id);
-    setTitle("");
-    setChanged(true);
-    console.log("changed is", changed);
-  };
+  useEffect(() => {
+    let handleKeyPress = (e) => {
+      if (e.keyCode === 13) {
+        handleSubmit();
+      }
+    };
 
-  const handleDelete = (q) => {
-    //TODO: hotfixed
-    deleteQuestion({ title: q, inserted: new Date(), type: "" }, id);
-    setTitle("");
-    setChanged(true);
-  };
+    document.addEventListener("keypress", handleKeyPress);
 
-  const handleTypeChange = (q, t) => {
-    changeQuestionType({ title: q, inserted: new Date(), type: t }, id, t);
-    setTitle("");
-    setChanged(true);
-  };
+    return () => {
+      document.removeEventListener("keypress", handleKeyPress);
+    };
+  }, [handleSubmit]);
 
   return (
     <div class="main-edit">
@@ -70,15 +84,15 @@ export default function EditSurvey(props) {
           ? null
           : questions.map((question, index) => {
               return (
-                <div class="question-container">
-                  <li key={index}>
-                    <div class="question-text">{question.title}</div>
+                <div className="question-container" key={index}>
+                  <li>
+                    <div className="question-text">{question.title}</div>
 
-                    <div class="buttons-selections">
+                    <div className="buttons-selections">
                       <select
                         name="question-type"
                         id="type"
-                        value={question.type}
+                        defaultValue={question.type}
                         onChange={(e) =>
                           handleTypeChange(question.title, e.target.value)
                         }
