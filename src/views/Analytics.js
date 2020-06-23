@@ -84,15 +84,17 @@ export default function Analytics(props) {
           ? null
           : formIds.map((id, idx) => {
             return (
-              <button
-                key={id}
-                value={id}
-                onClick={(e) => {
-                  handleDownload(e.target.value);
-                }}
-              >
-                Download {id} data
-              </button>
+              <div>
+                <button
+                  key={id}
+                  value={id}
+                  onClick={(e) => {
+                    handleDownload(e.target.value);
+                  }}
+                >
+                  Download {id} data
+                </button>
+              </div>
             );
           })}
       </div>

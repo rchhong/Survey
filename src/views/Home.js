@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import FirebaseContext from "../firebase/firebaseContext";
 import AuthContext from "../auth/authContext";
 import "./Home.css";
@@ -22,33 +22,33 @@ export default function Home(props) {
         {user.user === null ? "Not logged in" : "Logged in"}
       </div>
       <div class="button-container">
-        <a href="/survey/visitors" class="button">
-          Visitor Log
-        </a>
-        <a href="/edit/visitors" class="button">
-          Edit Visitor Log
-        </a>
-        <a href="/survey/team" class="button">
-          Team Member Log
-        </a>
-        <a href="edit/team" class="button">
-          Edit Team Member Log
-        </a>
-        <a href="/survey/residents" class="button">
-          Resident Log
-        </a>
-        <a href="/edit/residents" class="button">
-          Edit Resident Log
-        </a>
-        <a href="/survey/sanitize" class="button">
-          Cleaning Log
-        </a>
-        <a href="/edit/sanitize" class="button">
-          Edit Cleaning Log
-        </a>
-        <a href="/analytics" class="button">
-          Analytics
-        </a>
+        <Link to="/survey/visitors" class="button">
+            Visitor Log
+        </Link>
+        <Link to="/edit/visitors" class="button">
+            Edit Visitor Log
+        </Link>
+        <Link to="/survey/team" class="button">
+            Team Member Log
+        </Link>
+        <Link to="/edit/team" class="button">
+            Edit Team Member Log
+        </Link>
+        <Link to="/survey/residents" class="button">
+            Resident Log
+        </Link>
+        <Link to="/edit/residents" class="button">
+            Edit Resident Log
+        </Link>
+        <Link to="/survey/sanitize" class="button">
+            Cleaning Log
+        </Link>
+        <Link to="/edit/sanitize" class="button">
+            Edit Cleaning Log
+        </Link>
+        <Link to="/analytics" class="button">
+            Analytics
+        </Link>
         <button onClick={() => handleSignOut()}>Log Out</button>
       </div>
     </div>
