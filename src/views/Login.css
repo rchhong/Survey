@@ -1,0 +1,53 @@
+:root {
+  font-size: 16px;
+  background: var(--text-secondary);
+  --bg-primary: #fcb43a;
+  --bg-secondary: #f3c622;
+  --text-primary: #23212c;
+  --text-secondary: #3a3637;
+}
+
+.main-login {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  height: 100%;
+  width: 40%;
+  text-align: center;
+  color: var(--text-primary);
+  background-color: white;
+}
+
+.main-login input {
+  width: 70%;
+  box-sizing: border-box;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid var(--text-secondary);
+}
+
+.main-login input:focus {
+  border: 1px solid var(--bg-secondary);
+}
+
+.main-login button {
+  background-color: var(--bg-primary);
+  border: none;
+  color: var(--text-primary);
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 15px auto;
+}
+
+.main-login button:hover {
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+}

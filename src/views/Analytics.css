@@ -1,0 +1,70 @@
+:root {
+  font-size: 16px;
+  background: var(--text-secondary);
+  --bg-primary: #fcb43a;
+  --bg-secondary: #f3c622;
+  --text-primary: #23212c;
+  --text-secondary: #3a3637;
+}
+
+.main-analytics {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  height: 100%;
+  width: 40%;
+  text-align: center;
+  color: var(--text-primary);
+  background-color: white;
+}
+
+.main-analytics .dl-buttons-container button {
+  background-color: var(--bg-primary);
+  border: none;
+  color: var(--text-primary);
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 2px;
+}
+
+.main-analytics .dl-buttons-container button:hover {
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+}
+
+.alerts-container {
+  text-align: center;
+}
+
+.main-analytics .alerts-container {
+  overflow: auto;
+}
+
+.main-analytics .alerts-container li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.main-analytics .alerts-container button {
+  background-color: var(--bg-primary);
+  border: none;
+  color: var(--text-primary);
+  padding: 0px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.main-analytics .alerts-container button:hover {
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+}
