@@ -129,7 +129,7 @@ class Firebase {
 
     getContactTracing = (roomNum, numDays) => {
         let furthestBack = new Date() - numDays * 24 * 60 * 60 * 1000;
-        let ids = ['residents', 'team', 'visitors'];
+        let ids = ['residents', 'team', 'visitors', 'sanitization'];
 
         let requests = ids.map(id => (
             new Promise((res, rej) => {
