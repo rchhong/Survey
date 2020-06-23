@@ -15,11 +15,12 @@ export default function Home(props) {
 
   if (user.user === null) props.history.push("/login");
 
+<<<<<<< Updated upstream
   return (
     <div class="main-home">
       <h1>Home</h1>
       <div class="login-status">
-        {user.user === null ? "not logged in" : "logged in"}
+        {user.user === null ? "Not logged in" : "Logged in"}
       </div>
       <div class="button-container">
         <a href="/survey/visitors" class="button">
@@ -53,4 +54,5 @@ export default function Home(props) {
       </div>
     </div>
   );
+>>>>>>> Stashed changes
 }
