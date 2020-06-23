@@ -60,7 +60,7 @@ export default function Survey(props) {
   };
 
   return (
-    <div class="main">
+    <div class="main-survey">
       <h1>Survey</h1>
       {loading ? <div>loading</div> : null}
       {loading

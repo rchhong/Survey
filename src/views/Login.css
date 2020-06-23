@@ -7,7 +7,7 @@
   --text-secondary: #3a3637;
 }
 
-.main-edit {
+.main-login {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -17,48 +17,11 @@
   height: 100%;
   width: 40%;
   text-align: center;
-  overflow: auto;
   color: var(--text-primary);
   background-color: white;
 }
 
-.question-container {
-  font-size: 16px;
-  text-align: left;
-}
-
-.question-container li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-}
-
-.question-text {
-  width: 50%;
-}
-
-.buttons-selections {
-  display: inline;
-}
-
-.buttons-selections button {
-  background-color: var(--bg-primary);
-  border: none;
-  color: var(--text-primary);
-  padding: 0px 24px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-}
-
-.buttons-selections button:hover {
-  background-color: var(--bg-secondary);
-  color: var(--text-secondary);
-}
-
-input[type="text"] {
+.main-login input {
   width: 70%;
   box-sizing: border-box;
   padding: 12px 20px;
@@ -68,11 +31,11 @@ input[type="text"] {
   border: 1px solid var(--text-secondary);
 }
 
-input[type="text"]:focus {
+.main-login input:focus {
   border: 1px solid var(--bg-secondary);
 }
 
-.main-edit button {
+.main-login button {
   background-color: var(--bg-primary);
   border: none;
   color: var(--text-primary);
@@ -81,10 +44,10 @@ input[type="text"]:focus {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  margin-left: 10px;
+  margin: 15px auto;
 }
 
-.main-edit button:hover {
+.main-login button:hover {
   background-color: var(--bg-secondary);
   color: var(--text-secondary);
 }

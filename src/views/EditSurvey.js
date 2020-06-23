@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import FirebaseContext from "../firebase/firebaseContext";
 import "./EditSurvey.css";
-import AuthContext from '../auth/authContext';
+import AuthContext from "../auth/authContext";
 
 export default function EditSurvey(props) {
   const [questions, setQuestions] = useState([]);
@@ -36,10 +36,10 @@ export default function EditSurvey(props) {
       isSubscribed = false;
     };
   }, [getQuestions, id, changed]);
-    
+
   useEffect(() => {
-    if(user.user === null) props.history.push("/login");
-  }, [user, props.history]); 
+    if (user.user === null) props.history.push("/login");
+  }, [user, props.history]);
 
   const handleSubmit = () => {
     pushQuestion({ title, inserted: new Date(), type: "text" }, id);
@@ -62,7 +62,7 @@ export default function EditSurvey(props) {
   };
 
   return (
-    <div class="main">
+    <div class="main-edit">
       <h1>Edit Survey</h1>
       {loading ? <div>loading</div> : null}
       <ol>

@@ -7,7 +7,7 @@
   --text-secondary: #3a3637;
 }
 
-.main-edit {
+.main-analytics {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -17,32 +17,43 @@
   height: 100%;
   width: 40%;
   text-align: center;
-  overflow: auto;
   color: var(--text-primary);
   background-color: white;
 }
 
-.question-container {
+.main-analytics .dl-buttons-container button {
+  background-color: var(--bg-primary);
+  border: none;
+  color: var(--text-primary);
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
   font-size: 16px;
-  text-align: left;
+  margin: 2px;
 }
 
-.question-container li {
+.main-analytics .dl-buttons-container button:hover {
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+}
+
+.alerts-container {
+  text-align: center;
+}
+
+.main-analytics .alerts-container {
+  overflow: auto;
+}
+
+.main-analytics .alerts-container li {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
 }
 
-.question-text {
-  width: 50%;
-}
-
-.buttons-selections {
-  display: inline;
-}
-
-.buttons-selections button {
+.main-analytics .alerts-container button {
   background-color: var(--bg-primary);
   border: none;
   color: var(--text-primary);
@@ -53,38 +64,7 @@
   font-size: 16px;
 }
 
-.buttons-selections button:hover {
-  background-color: var(--bg-secondary);
-  color: var(--text-secondary);
-}
-
-input[type="text"] {
-  width: 70%;
-  box-sizing: border-box;
-  padding: 12px 20px;
-  margin: 8px 0;
-  border-radius: 4px;
-  outline: none;
-  border: 1px solid var(--text-secondary);
-}
-
-input[type="text"]:focus {
-  border: 1px solid var(--bg-secondary);
-}
-
-.main-edit button {
-  background-color: var(--bg-primary);
-  border: none;
-  color: var(--text-primary);
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin-left: 10px;
-}
-
-.main-edit button:hover {
+.main-analytics .alerts-container button:hover {
   background-color: var(--bg-secondary);
   color: var(--text-secondary);
 }

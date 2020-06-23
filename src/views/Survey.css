@@ -7,23 +7,27 @@
   --text-secondary: #3a3637;
 }
 
-.main {
+.main-survey {
   position: absolute;
-  top: 0%;
-  left: 30%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
   height: 100%;
   width: 40%;
   text-align: center;
   color: var(--text-primary);
   background-color: white;
+  overflow: auto;
 }
 
-.question-container {
+.main-survey .question-container {
   font-size: 20px;
   text-align: left;
 }
 
-.question {
+.main-survey .question {
   width: 90%;
   margin-left: 5%;
   margin-top: 30px;
@@ -31,7 +35,7 @@
   display: block;
 }
 
-.question input[type="text"] {
+.main-survey .question input[type="text"] {
   width: 100%;
   box-sizing: border-box;
   padding: 12px 20px;
@@ -41,11 +45,11 @@
   border: 1px solid var(--text-secondary);
 }
 
-.question input[type="text"]:focus {
+.main-survey .question input[type="text"]:focus {
   border: 1px solid var(--bg-secondary);
 }
 
-button {
+.main-survey button {
   background-color: var(--bg-primary);
   border: none;
   color: var(--text-primary);
@@ -54,9 +58,10 @@ button {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  margin-bottom: 20px;
 }
 
-button:hover {
+.main-survey button:hover {
   background-color: var(--bg-secondary);
   color: var(--text-secondary);
 }

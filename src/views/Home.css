@@ -7,23 +7,27 @@
   --text-secondary: #3a3637;
 }
 
-.main {
+.main-home {
   position: absolute;
-  top: 0%;
-  left: 30%;
-  height: 100vh;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  height: 100%;
   width: 40%;
   text-align: center;
   color: var(--text-primary);
   background-color: white;
+  overflow: auto;
 }
 
-.button-container {
+.main-home .button-container {
   text-align: center;
-  margin-top: 15%;
+  margin-top: 5%;
 }
 
-.button {
+.main-home .button-container .button {
   display: block;
   padding: 10px;
   margin: 30px;
@@ -32,7 +36,24 @@
   background-color: var(--bg-primary);
 }
 
-.button:hover {
+.main-home .button-container .button:hover {
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+}
+
+.main-home button {
+  background-color: var(--bg-primary);
+  border: none;
+  color: var(--text-primary);
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 45px auto;
+}
+
+.main-home button:hover {
   background-color: var(--bg-secondary);
   color: var(--text-secondary);
 }

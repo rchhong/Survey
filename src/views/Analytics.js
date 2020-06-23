@@ -1,97 +1,112 @@
-import React, { useState, useEffect, useContext } from 'react';
-import FirebaseContext from '../firebase/firebaseContext';
-import { json2csv } from 'json-2-csv';
+import React, { useState, useEffect, useContext } from "react";
+import FirebaseContext from "../firebase/firebaseContext";
+import { json2csv } from "json-2-csv";
+import "./Analytics.css";
 
-export default function Analytics(props){
+export default function Analytics(props) {
+  const [alerts, setAlerts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [changed, setChanged] = useState(false);
 
-    const [alerts, setAlerts] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [changed, setChanged] = useState(false);
+  const { getAlerts, deleteAlerts, dumpData } = useContext(FirebaseContext);
 
-    const { getAlerts, deleteAlerts, dumpData } = useContext(FirebaseContext);
+  const formIds = ["residents", "visitors", "team"];
 
-    const formIds = ['residents', 'visitors', 'team']
-
-    useEffect(() => {
-        let isSubscribed = true;
-        let getData = async () => {
-            await getAlerts().then((data) => {
-                if(isSubscribed){
-                    setAlerts(data);
-                    setLoading(false);
-                }
-            });
+  useEffect(() => {
+    let isSubscribed = true;
+    let getData = async () => {
+      await getAlerts().then((data) => {
+        if (isSubscribed) {
+          setAlerts(data);
+          setLoading(false);
         }
-        getData();
-        setChanged(false);
-        console.log('effect running');
+      });
+    };
+    getData();
+    setChanged(false);
+    console.log("effect running");
 
-        return () => {isSubscribed = false;}
-    }, [getAlerts, changed]);
+    return () => {
+      isSubscribed = false;
+    };
+  }, [getAlerts, changed]);
 
-    const handleDelete = (val) => {
-        deleteAlerts({_id : val});
-        setChanged(true);
-        console.log('changed is ', changed)
-    }
+  const handleDelete = (val) => {
+    deleteAlerts({ _id: val });
+    setChanged(true);
+    console.log("changed is ", changed);
+  };
 
-    const handleDownload = (id) => {
-        let getData = async () => {
-            await dumpData(id).then((data) => {
-                json2csv(data, (err, csv) => {
-                    let content = "data:text/csv;charset=utf-8," + csv;
-                    var encodedUri = encodeURI(content);
+  const handleDownload = (id) => {
+    let getData = async () => {
+      await dumpData(id).then((data) => {
+        json2csv(data, (err, csv) => {
+          let content = "data:text/csv;charset=utf-8," + csv;
+          var encodedUri = encodeURI(content);
 
-                    var link = document.createElement("a");
-                    link.setAttribute("href", encodedUri);
-                    link.setAttribute("download", id.concat("-")
-                        .concat(Math.floor((new Date().getTime()) / 1000))
-                        .concat(".csv"));
+          var link = document.createElement("a");
+          link.setAttribute("href", encodedUri);
+          link.setAttribute(
+            "download",
+            id
+              .concat("-")
+              .concat(Math.floor(new Date().getTime() / 1000))
+              .concat(".csv")
+          );
 
-                    document.body.appendChild(link);
-                    link.click();
-                });
-            });
-        }
-        getData();
-    }
+          document.body.appendChild(link);
+          link.click();
+        });
+      });
+    };
+    getData();
+  };
 
-    // TODO: add in pertinent alert info (room number, temperature, time of alert)
-    return (
-                <div>
-                    <h1>Analytics</h1>
-                    {
-                        loading ? <div>Loading...</div> : null
-                    }
-                    {
-                        loading ? null : <h2>Download Form Data</h2>
-                    }      
-                    {
-                        loading ? null : formIds.map((id, idx) => {
-                            return(
-                                <button key={id} value={id} onClick={e => {handleDownload(e.target.value)}}>
-                                    Download {id} data
-                                </button>
-                            )
-                        })
-                    }
-                    {
-                        loading ? null : <h2>Health Alerts</h2>
-                    }
-                    <ol>
-                        {
-                            loading ? null : alerts.map((alert, idx) => {
-                                return (
-                                    <li key={idx}>
-                                        {alert._id}
-                                        <button value={alert._id} onClick={e => {handleDelete(e.target.value);}}>
-                                            Dismiss Alert
-                                        </button>
-                                    </li>
-                                );
-                            })
-                        }
-                    </ol>
-                </div>
-           );
+  // TODO: add in pertinent alert info (room number, temperature, time of alert)
+  return (
+    <div class="main-analytics">
+      <h1>Analytics</h1>
+      <div class="dl-buttons-container">
+        {loading ? <div>Loading...</div> : null}
+        {loading ? null : <h2>Download Form Data</h2>}
+        {loading
+          ? null
+          : formIds.map((id, idx) => {
+              return (
+                <button
+                  key={id}
+                  value={id}
+                  onClick={(e) => {
+                    handleDownload(e.target.value);
+                  }}
+                >
+                  Download {id} data
+                </button>
+              );
+            })}
+      </div>
+      <div class="alerts-container">
+        {loading ? null : <h2>Health Alerts</h2>}
+        <ol>
+          {loading
+            ? null
+            : alerts.map((alert, idx) => {
+                return (
+                  <li key={idx}>
+                    {alert._id}
+                    <button
+                      value={alert._id}
+                      onClick={(e) => {
+                        handleDelete(e.target.value);
+                      }}
+                    >
+                      Dismiss Alert
+                    </button>
+                  </li>
+                );
+              })}
+        </ol>
+      </div>
+    </div>
+  );
 }
