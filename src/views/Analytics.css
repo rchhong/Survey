@@ -19,6 +19,7 @@
   text-align: center;
   color: var(--text-primary);
   background-color: white;
+  overflow: auto;
 }
 
 .main-analytics .dl-buttons-container button {
@@ -48,7 +49,7 @@
 
 .main-analytics .alerts-container li {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding: 10px 20px;
 }
