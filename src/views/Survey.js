@@ -79,9 +79,20 @@ export default function Survey(props) {
     return () => {document.removeEventListener("keypress", handleKeyPress)}
   }, [handleSubmit])
 
+  const handleHome = () => {
+    props.history.push("/");
+  }
+
   return (
     <div class="main-survey">
-      <h1>Survey</h1>
+      <div class="topbar-container">
+        <div>
+          <button onClick={() => handleHome()}>Home</button>
+        </div>
+        <h1>Edit Survey</h1>
+        <div>&#8203;</div>
+      </div>
+
       {loading ? <div>loading</div> : null}
       {loading
         ? null

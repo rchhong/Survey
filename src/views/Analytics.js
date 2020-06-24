@@ -42,6 +42,10 @@ export default function Analytics(props) {
     console.log("changed is ", changed);
   };
 
+  const handleHome = () => {
+    props.history.push("/");
+  }
+
   const handleDownload = (id) => {
     let getData = async () => {
       await dumpData(id).then((data) => {
@@ -76,7 +80,13 @@ export default function Analytics(props) {
   // TODO: add in pertinent alert info (room number, temperature, time of alert)
   return (
     <div class="main-analytics">
-      <h1>Analytics</h1>
+      <div class="topbar-container">
+        <div>
+          <button onClick={() => handleHome()}>Home</button>
+        </div>
+        <h1>Edit Survey</h1>
+        <div>&#8203;</div>
+      </div>
       <div class="dl-buttons-container">
         {loading ? <div>Loading...</div> : null}
         {loading ? null : <h2>Download Form Data</h2>}
