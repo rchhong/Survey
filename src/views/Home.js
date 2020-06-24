@@ -13,7 +13,9 @@ export default function Home(props) {
     await signOutFirebase();
   };
 
-  if (user.user === null) props.history.push("/login");
+  useEffect(() => {
+    if (user.user === null) props.history.push("/login");
+  }, [user, props.history]);
 
   return (
     <div class="main-home">

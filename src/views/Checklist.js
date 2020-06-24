@@ -40,6 +40,10 @@ export default function Survey(props) {
         setValid(isValid());
     }, [setValid, loading, questions, results])
 
+    useEffect(() => {
+        if (user.user === null) props.history.push("/login");
+      }, [user, props.history]);
+
     const handleChange = (index) => {
         let oldState = results[questions[index].title];
         setResults({...results, [questions[index].title] : !oldState});

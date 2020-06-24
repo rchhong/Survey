@@ -28,6 +28,10 @@ export default function Survey(props) {
     };
   }, [getQuestions, id]);
 
+  useEffect(() => {
+    if (user.user === null) props.history.push("/login");
+  }, [user, props.history]);
+
   const handleChange = (e, index) => {
     if (questions[index].type === "text") {
       setResults({
