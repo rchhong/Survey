@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import FirebaseContext from "../firebase/firebaseContext";
+import AuthContext from "../auth/authContext";
 import "./Survey.css";
 
 export default function Survey(props) {
@@ -10,6 +11,8 @@ export default function Survey(props) {
   const { getQuestions, pushResults } = useContext(FirebaseContext);
 
   const id = props.match.params.id;
+
+  const user = useContext(AuthContext);
 
   useEffect(() => {
     let isSubscribed = true;

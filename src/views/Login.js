@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import FirebaseContext from "../firebase/firebaseContext";
 import AuthContext from "../auth/authContext";
 import "./Login.css";
@@ -10,19 +10,30 @@ export default function Login(props) {
   const { signInFirebase } = useContext(FirebaseContext);
   const user = useContext(AuthContext);
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     await signInFirebase(username, password)
-      .then((data) => {
-        console.log(data);
-      })
       .catch((err) => {
-        console.log(err);
+        alert(err);
       });
-  };
+  }, [signInFirebase, username, password]);
 
   useEffect(() => {
     if (user.user !== null) props.history.push("/");
   }, [user, props.history]);
+
+  useEffect(() => {
+    let handleKeyPress = (e) => {
+      if (e.keyCode === 13) {
+        handleSubmit();
+      }
+    };
+
+    document.addEventListener("keypress", handleKeyPress);
+
+    return () => {
+      document.removeEventListener("keypress", handleKeyPress);
+    };
+  }, [handleSubmit]);
 
   return (
     <div class="main-login">

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext} from 'react';
 import FirebaseContext from '../firebase/firebaseContext'
+import AuthContext from "../auth/authContext";
 
 export default function Survey(props) {
     const [questions, setQuestions] = useState([]);
@@ -8,8 +9,7 @@ export default function Survey(props) {
     const [valid, setValid] = useState(false);
 
     const {getQuestions, pushResults} = useContext(FirebaseContext);
-
-
+    const user = useContext(AuthContext);
     const id = 'sanitize';
 
     useEffect(() => {
