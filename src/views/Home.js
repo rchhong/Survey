@@ -40,12 +40,6 @@ export default function Home(props) {
         <Link to="/edit/residents" class="button">
             Edit Resident Log
         </Link>
-        <Link to="/survey/sanitize" class="button">
-            Cleaning Log
-        </Link>
-        <Link to="/edit/sanitize" class="button">
-            Edit Cleaning Log
-        </Link>
         <Link to="/analytics" class="button">
             Analytics
         </Link>

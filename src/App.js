@@ -58,7 +58,6 @@ export default function App() {
               <Route path='/edit/:id' component={EditSurvey} />
               <Route path='/analytics' component={Analytics} />
               <Route path='/login' component={Login} />
-              <Route path='/sanitize' component={Checklist} />
             </Switch>
           </div>
       </Router>
