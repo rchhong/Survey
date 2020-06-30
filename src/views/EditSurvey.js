@@ -39,6 +39,10 @@ export default function EditSurvey(props) {
     setChanged(true);
   };
 
+  const handleHome = () => {
+    props.history.push("/");
+  }
+
   useEffect(() => {
     let isSubscribed = true;
     let getData = async () => {
@@ -77,7 +81,13 @@ export default function EditSurvey(props) {
 
   return (
     <div class="main-edit">
-      <h1>Edit Survey</h1>
+      <div class="topbar-container">
+        <div>
+          <button onClick={() => handleHome()}>Home</button>
+        </div>
+        <h1>Survey</h1>
+        <div>&#8203;</div>
+      </div>
       {loading ? <div>loading</div> : null}
       <ol>
         {loading

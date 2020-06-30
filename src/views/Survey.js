@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import FirebaseContext from "../firebase/firebaseContext";
+import AuthContext from "../auth/authContext";
 import "./Survey.css";
 
 export default function Survey(props) {
@@ -10,6 +11,8 @@ export default function Survey(props) {
   const { getQuestions, pushResults } = useContext(FirebaseContext);
 
   const id = props.match.params.id;
+
+  const user = useContext(AuthContext);
 
   useEffect(() => {
     let isSubscribed = true;
@@ -27,6 +30,10 @@ export default function Survey(props) {
       isSubscribed = false;
     };
   }, [getQuestions, id]);
+
+  useEffect(() => {
+    if (user.user === null) props.history.push("/login");
+  }, [user, props.history]);
 
   const handleChange = (e, index) => {
     if (questions[index].type === "text") {
@@ -72,9 +79,20 @@ export default function Survey(props) {
     return () => {document.removeEventListener("keypress", handleKeyPress)}
   }, [handleSubmit])
 
+  const handleHome = () => {
+    props.history.push("/");
+  }
+
   return (
     <div class="main-survey">
-      <h1>Survey</h1>
+      <div class="topbar-container">
+        <div>
+          <button onClick={() => handleHome()}>Home</button>
+        </div>
+        <h1>Edit Survey</h1>
+        <div>&#8203;</div>
+      </div>
+
       {loading ? <div>loading</div> : null}
       {loading
         ? null

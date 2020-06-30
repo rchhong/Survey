@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import FirebaseContext from "../firebase/firebaseContext";
 import AuthContext from "../auth/authContext";
@@ -13,7 +13,9 @@ export default function Home(props) {
     await signOutFirebase();
   };
 
-  if (user.user === null) props.history.push("/login");
+  useEffect(() => {
+    if (user.user === null) props.history.push("/login");
+  }, [user, props.history]);
 
   return (
     <div class="main-home">
