@@ -128,7 +128,6 @@ class Firebase {
     }
     
     getNames = (id) => {
-        console.log('id is', id);
         return new Promise((res, rej) => {
             this.db.collection('results-' + id).orderBy('inserted').get().then((querySnapshot) => {
                 let ret = [];
@@ -136,6 +135,7 @@ class Firebase {
                     ret.push(doc.data()["Name"]);
                     ret.push(doc.data()["name"]);
                 });
+                ret = [...new Set(ret)];
                 return ret;
             }).then((ret) => res(ret));
         })
