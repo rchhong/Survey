@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import FirebaseContext from "../firebase/firebaseContext";
+import AuthContext from '../auth/authContext';
 import { json2csv } from "json-2-csv";
 import "./Analytics.css";
 
@@ -10,6 +11,9 @@ export default function Analytics(props) {
   const [numDays, setNumDays] = useState(14);
   const [roomNum, setRoomNum] = useState(0);
   const [contactData, setContactData] = useState([]);
+
+
+  const user = useContext(AuthContext);
 
   const { getAlerts, deleteAlerts, dumpData, getContactTracing } = useContext(
     FirebaseContext
@@ -41,6 +45,10 @@ export default function Analytics(props) {
     setChanged(true);
     console.log("changed is ", changed);
   };
+
+  useEffect(() => {
+    if (user.user === null || user.user.role !== "owner") props.history.push("/login");
+  }, [user, props.history]);
 
   const handleHome = () => {
     props.history.push("/");
@@ -79,15 +87,15 @@ export default function Analytics(props) {
 
   // TODO: add in pertinent alert info (room number, temperature, time of alert)
   return (
-    <div class="main-analytics">
-      <div class="topbar-container">
+    <div className="main-analytics">
+      <div className="topbar-container">
         <div>
           <button onClick={() => handleHome()}>Home</button>
         </div>
         <h1>Edit Survey</h1>
         <div>&#8203;</div>
       </div>
-      <div class="dl-buttons-container">
+      <div className="dl-buttons-container">
         {loading ? <div>Loading...</div> : null}
         {loading ? null : <h2>Download Form Data</h2>}
         {loading
@@ -108,7 +116,7 @@ export default function Analytics(props) {
             );
           })}
       </div>
-      <div class="alerts-container">
+      <div className="alerts-container">
         {loading ? null : <h2>Health Alerts</h2>}
         <ol>
           {loading
@@ -136,7 +144,7 @@ export default function Analytics(props) {
       </div>
       {loading ? null : <h2>Contact Tracing</h2>}
       {loading ? null : (
-        <div class="trace-container">
+        <div className="trace-container">
           <div>Room Number</div>
           <input
             type="number"

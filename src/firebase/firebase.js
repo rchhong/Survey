@@ -10,7 +10,7 @@ const appConfig = {
     storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
     messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
     appId: process.env.REACT_APP_APP_ID,
-    measurementId: process.env.REACT_APP_MEASUREMENT_ID, 
+    measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
 
@@ -126,7 +126,7 @@ class Firebase {
     signOutFirebase = () => {
         return this.auth.signOut();
     }
-    
+
     getNames = (id) => {
         console.log('id is', id);
         return new Promise((res, rej) => {
@@ -163,6 +163,20 @@ class Firebase {
 
         return Promise.all(requests);
     }
+
+  getCurrentRole = (uuid) => {
+      return new Promise((res, rej) => {
+        if(!uuid) res("none")
+
+        this.db.collection("roles").doc(uuid).get().then((doc) => {
+          console.log(doc.data());
+          return doc.data()['role'];
+        }).then((role) => res(role)).catch((err) => {
+          console.log(err);
+          return "none"
+        });
+      });
+  }
 }
 
 export default Firebase;

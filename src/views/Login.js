@@ -36,7 +36,7 @@ export default function Login(props) {
   }, [handleSubmit]);
 
   return (
-    <div class="main-login">
+    <div className="main-login">
       <h1>Login</h1>
       <div>
         <div>Username</div>

@@ -62,7 +62,7 @@ export default function EditSurvey(props) {
   }, [getQuestions, id, changed]);
 
   useEffect(() => {
-    if (user.user === null) props.history.push("/login");
+    if (user.user === null || user.user.role !== "owner") props.history.push("/login");
   }, [user, props.history]);
 
   useEffect(() => {
@@ -80,8 +80,8 @@ export default function EditSurvey(props) {
   }, [handleSubmit]);
 
   return (
-    <div class="main-edit">
-      <div class="topbar-container">
+    <div className="main-edit">
+      <div className="topbar-container">
         <div>
           <button onClick={() => handleHome()}>Home</button>
         </div>

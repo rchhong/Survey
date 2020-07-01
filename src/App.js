@@ -33,15 +33,19 @@ export default function App() {
   const Firebase = useContext(FirebaseContext);
 
   useEffect(() => {
-    let persistLogin = 
-      Firebase.auth.onAuthStateChanged((user) => {
-
-        if(user) dispatch({type: "RESTORE_USER", user});
+    let persistLogin =
+      Firebase.auth.onAuthStateChanged(async (user) => {
+        if(user) {
+          await Firebase.getCurrentRole(user.uid).then((role) => {
+            console.log(role);
+            user.role = role;
+            dispatch({type: "RESTORE_USER", user});
+          })
+        }
         else dispatch({type: "RESTORE_USER", user: null});
       })
-
     return () => persistLogin();
-  })
+  }, [state.user, Firebase.auth])
 
   const authContext = useMemo(() => ({
     ...state

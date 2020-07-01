@@ -18,31 +18,33 @@ export default function Home(props) {
   }, [user, props.history]);
 
   return (
-    <div class="main-home">
+    <div className="main-home">
       <h1>Home</h1>
       <div className="login-status">
         {user.user === null ? "Not logged in" : "Logged in"}
+        <br></br>
+        {user.user === null ? "Not logged in" : `User Role: ${user.user.role}`}
       </div>
-      <div class="button-container">
-        <Link to="/survey/visitors" class="button">
+      <div className="button-container">
+        <Link to="/survey/visitors" className="button">
             Visitor Log
         </Link>
-        <Link to="/edit/visitors" class="button">
+        <Link to="/edit/visitors" className="button">
             Edit Visitor Log
         </Link>
-        <Link to="/survey/team" class="button">
+        <Link to="/survey/team" className="button">
             Team Member Log
         </Link>
-        <Link to="/edit/team" class="button">
+        <Link to="/edit/team" className="button">
             Edit Team Member Log
         </Link>
-        <Link to="/survey/residents" class="button">
+        <Link to="/survey/residents" className="button">
             Resident Log
         </Link>
-        <Link to="/edit/residents" class="button">
+        <Link to="/edit/residents" className="button">
             Edit Resident Log
         </Link>
-        <Link to="/analytics" class="button">
+        <Link to="/analytics" className="button">
             Analytics
         </Link>
         <button onClick={() => handleSignOut()}>Log Out</button>

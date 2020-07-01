@@ -39,7 +39,7 @@ export default function Survey(props) {
   useEffect(() => {
     let getData = async () => {
       await getNames(id).then((data) => {
-        setNames(data);  
+        setNames(data);
       });
     };
     getData();
@@ -94,7 +94,7 @@ export default function Survey(props) {
   }
 
   return (
-    <div class="main-survey">
+    <div className="main-survey">
       <div className="topbar-container">
         <div>
           <button onClick={() => handleHome()}>Home</button>
@@ -109,16 +109,16 @@ export default function Survey(props) {
         : questions.map((question, index) => {
             let isName = (question.title === 'Name')
             return (
-              <div class="question-container">
-                <div key={index} class="question">
+              <div className="question-container">
+                <div key={index} className="question">
                   <div>{question.title}</div>
                   <input
-                    list={question.title}  
+                    list={question.title}
                     type={question.type}
                     value={results[question.title] || ""}
                     onChange={(e) => handleChange(e, index)}
                   ></input>
-                    {isName 
+                    {isName
                       ? <datalist id={question.title}>
                         {names.map((name, index) => {
                           return (
