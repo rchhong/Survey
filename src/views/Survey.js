@@ -99,7 +99,7 @@ export default function Survey(props) {
         <div>
           <button onClick={() => handleHome()}>Home</button>
         </div>
-        <h1>Edit Survey</h1>
+        <h1>Log for {id}</h1>
         <div>&#8203;</div>
       </div>
 
