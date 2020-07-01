@@ -7,8 +7,9 @@ export default function Survey(props) {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState({});
+  const [names, setNames] = useState([]);
 
-  const { getQuestions, pushResults } = useContext(FirebaseContext);
+  const { getQuestions, pushResults, getNames } = useContext(FirebaseContext);
 
   const id = props.match.params.id;
 
@@ -34,6 +35,15 @@ export default function Survey(props) {
   useEffect(() => {
     if (user.user === null) props.history.push("/login");
   }, [user, props.history]);
+
+  useEffect(() => {
+    let getData = async () => {
+      await getNames(id).then((data) => {
+        setNames(data);  
+      });
+    };
+    getData();
+  }, [getNames, id]);
 
   const handleChange = (e, index) => {
     if (questions[index].type === "text") {
@@ -85,7 +95,7 @@ export default function Survey(props) {
 
   return (
     <div class="main-survey">
-      <div class="topbar-container">
+      <div className="topbar-container">
         <div>
           <button onClick={() => handleHome()}>Home</button>
         </div>
@@ -97,15 +107,26 @@ export default function Survey(props) {
       {loading
         ? null
         : questions.map((question, index) => {
+            let isName = (question.title === 'Name')
             return (
               <div class="question-container">
                 <div key={index} class="question">
                   <div>{question.title}</div>
                   <input
+                    list={question.title}  
                     type={question.type}
                     value={results[question.title] || ""}
                     onChange={(e) => handleChange(e, index)}
                   ></input>
+                    {isName 
+                      ? <datalist id={question.title}>
+                        {names.map((name, index) => {
+                          return (
+                            <option value={name}></option>
+                          );
+                        })}
+                        </datalist>
+                      : null}
                 </div>
               </div>
             );

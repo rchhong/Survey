@@ -20,7 +20,7 @@ export default function Home(props) {
   return (
     <div class="main-home">
       <h1>Home</h1>
-      <div class="login-status">
+      <div className="login-status">
         {user.user === null ? "Not logged in" : "Logged in"}
       </div>
       <div class="button-container">

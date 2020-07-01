@@ -10,7 +10,6 @@ import EditSurvey from './views/EditSurvey';
 import Analytics from './views/Analytics';
 import Login from './views/Login';
 import Error from './views/Error';
-import Checklist from './views/Checklist';
 import { AuthProvider } from './auth/authContext';
 import FirebaseContext from './firebase/firebaseContext';
 
