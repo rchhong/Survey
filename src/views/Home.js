@@ -29,24 +29,29 @@ export default function Home(props) {
         <Link to="/survey/visitors" className="button">
             Visitor Log
         </Link>
-        <Link to="/edit/visitors" className="button">
-            Edit Visitor Log
-        </Link>
         <Link to="/survey/team" className="button">
             Team Member Log
-        </Link>
-        <Link to="/edit/team" className="button">
-            Edit Team Member Log
         </Link>
         <Link to="/survey/residents" className="button">
             Resident Log
         </Link>
-        <Link to="/edit/residents" className="button">
-            Edit Resident Log
-        </Link>
-        <Link to="/analytics" className="button">
-            Analytics
-        </Link>
+        {user.user !== null && user.user.role === "owner" ?
+          <div>
+            <Link to="/edit/visitors" className="button">
+                Edit Visitor Log
+            </Link>
+            <Link to="/edit/team" className="button">
+                Edit Team Member Log
+            </Link>
+            <Link to="/edit/residents" className="button">
+                Edit Resident Log
+            </Link>
+            <Link to="/analytics" className="button">
+                Analytics
+            </Link>
+          </div>
+          : null
+        }
         <button onClick={() => handleSignOut()}>Log Out</button>
       </div>
     </div>
