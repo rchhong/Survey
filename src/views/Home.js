@@ -29,12 +29,16 @@ export default function Home(props) {
         <Link to="/survey/visitors" className="button">
             Visitor Log
         </Link>
-        <Link to="/survey/team" className="button">
-            Team Member Log
-        </Link>
-        <Link to="/survey/residents" className="button">
-            Resident Log
-        </Link>
+        {user.user !== null && user.user.role === "employee" ?
+          <div>
+            <Link to="/survey/team" className="button">
+                Team Member Log
+            </Link>
+            <Link to="/survey/residents" className="button">
+                Resident Log
+            </Link>
+          </div> : null
+        }
         {user.user !== null && user.user.role === "owner" ?
           <div>
             <Link to="/edit/visitors" className="button">

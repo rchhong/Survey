@@ -46,7 +46,7 @@ export default function App() {
         else dispatch({type: "RESTORE_USER", user: null});
       })
     return () => persistLogin();
-  }, [state.user, Firebase.auth])
+  }, [state.user, Firebase])
 
   const authContext = useMemo(() => ({
     ...state
