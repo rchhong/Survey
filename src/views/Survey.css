@@ -23,23 +23,22 @@
 }
 
 .main-survey .question-container {
-  font-size: 20px;
+  font-size: 15px;
   text-align: left;
 }
 
-.main-survey .question {
+.main-survey .question-container .question {
   width: 90%;
   margin-left: 5%;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin-top: 2px;
   display: block;
 }
 
 .main-survey .question input[type="text"] {
   width: 100%;
   box-sizing: border-box;
-  padding: 12px 20px;
-  margin: 8px 0;
+  padding: 6px 10px;
+  margin: 5px 0;
   border-radius: 4px;
   outline: none;
   border: 1px solid var(--text-secondary);
@@ -58,7 +57,8 @@
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  margin-bottom: 20px;
+  margin-top: 15px;
+  margin-bottom: 10px;
 }
 
 .main-survey button:hover {
