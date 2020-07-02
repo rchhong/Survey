@@ -25,30 +25,58 @@ export default function Home(props) {
         <br></br>
         {user.user === null ? "Not logged in" : `User Role: ${user.user.role}`}
       </div>
-      <div className="button-container">
-        <Link to="/survey/visitors" className="button">
-            Visitor Log
-        </Link>
-        <Link to="/edit/visitors" className="button">
-            Edit Visitor Log
-        </Link>
-        <Link to="/survey/team" className="button">
-            Team Member Log
-        </Link>
-        <Link to="/edit/team" className="button">
-            Edit Team Member Log
-        </Link>
-        <Link to="/survey/residents" className="button">
-            Resident Log
-        </Link>
-        <Link to="/edit/residents" className="button">
-            Edit Resident Log
-        </Link>
-        <Link to="/analytics" className="button">
-            Analytics
-        </Link>
-        <button onClick={() => handleSignOut()}>Log Out</button>
-      </div>
+      {user.user === null ?
+        null
+      :
+        <div className="button-container">
+          <Link to="/survey/visitors" className="button">
+              Visitor Log
+          </Link>
+          {user.user.role === "owner" ? 
+              <Link to="/edit/visitors" className="button">
+                  Edit Visitor Log
+              </Link>
+          :
+              null
+          }
+          {user.user.role === "employee" || user.user.role === "owner" ? 
+              <Link to="/survey/team" className="button">
+                  Team Member Log
+              </Link>
+          :
+              null
+          }        
+          {user.user.role === "owner" ? 
+              <Link to="/edit/team" className="button">
+                  Edit Team Member Log
+              </Link>
+          :
+              null
+          }
+          {user.user.role === "employee" || user.user.role === "owner" ?
+              <Link to="/survey/residents" className="button">
+                  Resident Log
+              </Link>
+          :
+              null
+          }
+          {user.user.role === "owner" ? 
+              <Link to="/edit/residents" className="button">
+                  Edit Resident Log
+              </Link>
+          :
+              null
+          }
+          {user.user.role === "owner" ?
+              <Link to="/analytics" className="button">
+                  Analytics
+              </Link>
+          :
+              null
+          }
+          <button onClick={() => handleSignOut()}>Log Out</button>
+        </div>
+      }
     </div>
   );
 }

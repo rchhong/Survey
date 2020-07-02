@@ -18,6 +18,7 @@ export default function Login(props) {
   }, [signInFirebase, username, password]);
 
   useEffect(() => {
+    console.log('Signed in...', user);
     if (user.user !== null) props.history.push("/");
   }, [user, props.history]);
 
