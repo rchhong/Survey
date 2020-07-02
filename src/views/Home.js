@@ -29,7 +29,7 @@ export default function Home(props) {
         <Link to="/survey/visitors" className="button">
             Visitor Log
         </Link>
-        {user.user !== null && user.user.role === "employee" ?
+        {user.user !== null && (user.user.role === "employee" || user.user.role === "owner") ?
           <div>
             <Link to="/survey/team" className="button">
                 Team Member Log
