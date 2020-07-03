@@ -116,6 +116,7 @@ export default function Survey(props) {
                   list={question.title}
                   type={question.type}
                   value={results[question.title] || ""}
+                  checked={results[question.title] || false}  
                   onChange={(e) => handleChange(e, index)}
                 ></input>
                 {isName
