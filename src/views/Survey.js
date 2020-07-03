@@ -79,14 +79,14 @@ export default function Survey(props) {
   useEffect(() => {
 
     let handleKeyPress = (e) => {
-      if(e.keyCode === 13) {
+      if (e.keyCode === 13) {
         handleSubmit();
       }
     }
 
     document.addEventListener("keypress", handleKeyPress);
 
-    return () => {document.removeEventListener("keypress", handleKeyPress)}
+    return () => { document.removeEventListener("keypress", handleKeyPress) }
   }, [handleSubmit])
 
   const handleHome = () => {
@@ -99,7 +99,7 @@ export default function Survey(props) {
         <div>
           <button onClick={() => handleHome()}>Home</button>
         </div>
-        <h1>Edit Survey</h1>
+        <h1>Log for {id}</h1>
         <div>&#8203;</div>
       </div>
 
@@ -107,30 +107,30 @@ export default function Survey(props) {
       {loading
         ? null
         : questions.map((question, index) => {
-            let isName = (question.title === 'Name')
-            return (
-              <div className="question-container">
-                <div key={index} className="question">
-                  <div>{question.title}</div>
-                  <input
-                    list={question.title}
-                    type={question.type}
-                    value={results[question.title] || ""}
-                    onChange={(e) => handleChange(e, index)}
-                  ></input>
-                    {isName
-                      ? <datalist id={question.title}>
-                        {names.map((name, index) => {
-                          return (
-                            <option value={name}></option>
-                          );
-                        })}
-                        </datalist>
-                      : null}
-                </div>
+          let isName = (question.title === 'Name')
+          return (
+            <div className="question-container">
+              <div key={index} className="question">
+                <div>{question.title}</div>
+                <input
+                  list={question.title}
+                  type={question.type}
+                  value={results[question.title] || ""}
+                  onChange={(e) => handleChange(e, index)}
+                ></input>
+                {isName
+                  ? <datalist id={question.title}>
+                    {names.map((name, index) => {
+                      return (
+                        <option value={name}></option>
+                      );
+                    })}
+                  </datalist>
+                  : null}
               </div>
-            );
-          })}
+            </div>
+          );
+        })}
       <button onClick={handleSubmit.bind(this)}>Submit</button>
     </div>
   );

@@ -170,10 +170,12 @@ class Firebase {
 
         this.db.collection("roles").doc(uuid).get().then((doc) => {
           console.log(doc.data());
+          console.log("found role");
           return doc.data()['role'];
         }).then((role) => res(role)).catch((err) => {
           console.log(err);
-          return "none"
+          console.log("couldn't find role");
+          return "employee";
         });
       });
   }
