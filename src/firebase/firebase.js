@@ -69,7 +69,7 @@ class Firebase {
                 if(result['Congestion']) {conf += w_cong;}
                 if(result['Cough']) {conf += w_cough;}
                 if(result['Headache']){conf += w_head;}
-                if(result['Soreness']){conf += w_sore;}
+                if(result['Sore throat']){conf += w_sore;}
                 if(result['Fatigue']){conf += w_fatigue;}
                 if(result['Short of Breath']){conf += w_short;}
                 if(result['Chills']){conf += w_chills};
