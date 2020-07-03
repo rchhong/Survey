@@ -127,16 +127,20 @@ class Firebase {
         return this.auth.signOut();
     }
 
-    getNames = (id) => {
+    getSuggestions = (id, fieldList) => {
         return new Promise((res, rej) => {
             this.db.collection('results-' + id).orderBy('inserted').get().then((querySnapshot) => {
-                let ret = [];
-                querySnapshot.forEach((doc) => {
-                    ret.push(doc.data()["Name"]);
-                    ret.push(doc.data()["name"]);
+                let retObj = [];
+                fieldList.forEach((field) => {
+                    let ret = [];
+                    querySnapshot.forEach((doc) => {
+                        ret.push(doc.data()[field]);
+                        ret.push(doc.data()[field.toLowerCase()]);
+                    });
+                    ret = [...new Set(ret)];
+                    retObj[field] = ret;
                 });
-                ret = [...new Set(ret)];
-                return ret;
+                return retObj;
             }).then((ret) => res(ret));
         })
     }

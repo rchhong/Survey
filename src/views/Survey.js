@@ -7,11 +7,12 @@ export default function Survey(props) {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState({});
-  const [names, setNames] = useState([]);
+  const [suggestions, setSuggestions] = useState({});
 
-  const { getQuestions, pushResults, getNames } = useContext(FirebaseContext);
+  const { getQuestions, pushResults, getSuggestions } = useContext(FirebaseContext);
 
   const id = props.match.params.id;
+  const suggestionFields = ["Name", "Email", "Phone Number", "Team member name"];
 
   const user = useContext(AuthContext);
 
@@ -38,12 +39,12 @@ export default function Survey(props) {
 
   useEffect(() => {
     let getData = async () => {
-      await getNames(id).then((data) => {
-        setNames(data);
+      await getSuggestions(id, suggestionFields).then((data) => {
+          setSuggestions(data);
       });
     };
     getData();
-  }, [getNames, id]);
+  }, [getSuggestions, suggestionFields, id]);
 
   const handleChange = (e, index) => {
     if (questions[index].type === "text") {
@@ -107,7 +108,7 @@ export default function Survey(props) {
       {loading
         ? null
         : questions.map((question, index) => {
-          let isName = (question.title === 'Name')
+          let suggestionEnabled = (suggestions.hasOwnProperty(question.title))
           return (
             <div className="question-container">
               <div key={index} className="question">
@@ -119,11 +120,11 @@ export default function Survey(props) {
                   checked={results[question.title] || false}  
                   onChange={(e) => handleChange(e, index)}
                 ></input>
-                {isName
+                {suggestionEnabled
                   ? <datalist id={question.title}>
-                    {names.map((name, index) => {
+                    {suggestions[question.title].map((suggestion, index) => {
                       return (
-                        <option value={name}></option>
+                        <option value={suggestion}></option>
                       );
                     })}
                   </datalist>
