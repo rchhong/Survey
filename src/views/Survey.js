@@ -111,7 +111,7 @@ export default function Survey(props) {
           return (
             <div className="question-container">
               <div key={index} className="question">
-                <div>{question.title}</div>
+                {question.title + " "}
                 <input
                   list={question.title}
                   type={question.type}

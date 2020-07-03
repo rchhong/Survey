@@ -109,6 +109,7 @@ export default function EditSurvey(props) {
                       >
                         <option value="text">Text</option>
                         <option value="checkbox">Check Box</option>
+                        <option value="hidden">No Input</option>      
                       </select>
                       <button
                         value={question.title}
