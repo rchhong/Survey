@@ -85,7 +85,7 @@ export default function EditSurvey(props) {
         <div>
           <button onClick={() => handleHome()}>Home</button>
         </div>
-        <h1>Survey</h1>
+        <h1>Edit Log for {id}</h1>
         <div>&#8203;</div>
       </div>
       {loading ? <div>loading</div> : null}

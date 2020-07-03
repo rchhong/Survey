@@ -38,13 +38,16 @@ export default function Survey(props) {
   }, [user, props.history]);
 
   useEffect(() => {
+    console.log('in react hook', suggestionFields);
     let getData = async () => {
       await getSuggestions(id, suggestionFields).then((data) => {
           setSuggestions(data);
       });
     };
     getData();
-  }, [getSuggestions, suggestionFields, id]);
+    console.log('suggestions: ', suggestions);
+  // eslint-disable-next-line
+  }, [getSuggestions, id]);
 
   const handleChange = (e, index) => {
     if (questions[index].type === "text") {
@@ -60,12 +63,10 @@ export default function Survey(props) {
         inserted: new Date(),
       });
     }
-    console.log(results);
   };
 
   const handleSubmit = useCallback(() => {
     let payload = {};
-    console.log(payload);
     Object.keys(results).forEach((key, index) => {
       if (isNaN(Number(results[key]))) {
         payload[key] = results[key];
@@ -110,8 +111,8 @@ export default function Survey(props) {
         : questions.map((question, index) => {
           let suggestionEnabled = (suggestions.hasOwnProperty(question.title))
           return (
-            <div className="question-container">
-              <div key={index} className="question">
+            <div key={index} className="question-container">
+              <div className="question">
                 {question.title + " "}
                 <input
                   list={question.title}
@@ -122,9 +123,9 @@ export default function Survey(props) {
                 ></input>
                 {suggestionEnabled
                   ? <datalist id={question.title}>
-                    {suggestions[question.title].map((suggestion, index) => {
+                    {suggestions[question.title].map((suggestion, idx) => {
                       return (
-                        <option value={suggestion}></option>
+                        <option key={idx} value={suggestion}></option>
                       );
                     })}
                   </datalist>
